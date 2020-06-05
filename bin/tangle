@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+# -*- mode: shell-script -*-
+#
+# Tangle .org files with org-mode
+
+EMACSCMD="emacs"
+DIR=`pwd`
+
+# wrap each argument in the code required to call tangle on it
+for file in $@; do
+    echo "File: $file"
+    $EMACSCMD -nw --batch --eval "
+(progn
+  (require 'org-install)
+  (find-file (expand-file-name \"$file\" \"$DIR\"))
+  (org-babel-tangle)
+  (kill-buffer))" 2>&1 | grep "Tangled"
+done
