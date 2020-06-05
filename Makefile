@@ -1,3 +1,8 @@
+all: yabai
+
+yabai: yabai.org
+	bin/tangle yabai.org
+
 run: all
 	for f in sh/*.sh; do \
 		echo "Running: $$f"; \

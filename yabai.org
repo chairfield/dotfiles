@@ -1,0 +1,119 @@
+#+TITLE: Yabai, spacebar, and skhd dotfiles
+#+STARTUP: content
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: introduction
+:END:
+Generate a script to install [[https://github.com/koekeishiya/yabai][yabai]]-related dotfiles:
+
+#+BEGIN_SRC sh :tangle sh/install-yabai.sh
+ln -sfv $PWD/out/yabairc ~/.yabairc
+chmod +x ~/.yabairc
+ln -sfv $PWD/out/spacebarrc ~/.spacebarrc
+chmod +x ~/.spacebarrc
+ln -sfv $PWD/out/skhdrc ~/.skhdrc
+#+END_SRC
+** .yabairc
+:PROPERTIES:
+:CUSTOM_ID: yabairc
+:END:
+[[https://github.com/koekeishiya/yabai][yabai]] is a tiling window management utility for MacOS.
+
+#+BEGIN_SRC sh :tangle out/yabairc
+#!/usr/bin/env sh
+
+[[ -o interactive ]] && echo "+++Reading .yabairc"
+
+# global settings
+yabai -m config mouse_follows_focus          off
+yabai -m config focus_follows_mouse          off
+yabai -m config window_placement             second_child
+yabai -m config window_topmost               on
+yabai -m config window_opacity               off
+yabai -m config window_shadow                float
+yabai -m config window_border                off
+yabai -m config window_border_width          2
+yabai -m config active_window_border_color   0xff775759
+yabai -m config normal_window_border_color   0xff505050
+yabai -m config insert_window_border_color   0xffd75f5f
+yabai -m config active_window_opacity        1.0
+yabai -m config normal_window_opacity        0.90
+yabai -m config split_ratio                  0.50
+yabai -m config auto_balance                 off
+yabai -m config mouse_modifier               fn
+yabai -m config mouse_action1                move
+yabai -m config mouse_action2                resize
+
+# general space settings
+yabai -m config layout                       bsp
+yabai -m config top_padding                  33
+yabai -m config bottom_padding               5
+yabai -m config left_padding                 7
+yabai -m config right_padding                5
+yabai -m config window_gap                   5
+#+END_SRC
+** .spacebarrc
+:PROPERTIES:
+:CUSTOM_ID: spacebarrc
+:END:
+[[https://github.com/somdoron/spacebar][spacebar]] is a status bar for the [[https://github.com/koekeishiya/yabai][yabai]] tiling window manager that was split off
+from the yabai repo at its 3.0.0 release.
+
+#+BEGIN_SRC sh :tangle out/spacebarrc
+#!/usr/bin/env sh
+
+[[ -o interactive ]] && echo "+++Reading .spacebarrc"
+
+spacebar -m config status_bar_text_font         "Helvetica Neue:Bold:12.0"
+spacebar -m config status_bar_icon_font         "Font Awesome 5 Free:Solid:12.0"
+spacebar -m config status_bar_background_color  0xff202020
+spacebar -m config status_bar_foreground_color  0xffa8a8a8
+spacebar -m config status_bar_space_icon_strip  1 2 3 4 5 6 7 8 9 0
+spacebar -m config status_bar_power_icon_strip   
+spacebar -m config status_bar_clock_icon        
+spacebar -m config status_bar_clock_format      "%Y-%m-%d %R"
+#+END_SRC
+** .skhdrc
+:PROPERTIES:
+:CUSTOM_ID: skhdrc
+:END:
+[[https://github.com/koekeishiya/skhd][skhd]] is a MacOS hotkey daemon that I am using for driving [[https://github.com/koekeishiya/yabai][yabai]].
+
+#+BEGIN_SRC sh :tangle out/skhdrc
+# swap window
+shift + alt - h : yabai -m window --swap west
+shift + alt - j : yabai -m window --swap south
+shift + alt - k : yabai -m window --swap north
+shift + alt - l : yabai -m window --swap east
+
+# move window
+shift + cmd - h : yabai -m window --warp west
+shift + cmd - j : yabai -m window --warp south
+shift + cmd - k : yabai -m window --warp north
+shift + cmd - l : yabai -m window --warp east
+
+# fast focus desktop
+cmd - 1 : yabai -m space --focus 1
+cmd - 2 : yabai -m space --focus 2
+cmd - 3 : yabai -m space --focus 3
+cmd - 4 : yabai -m space --focus 4
+cmd - 5 : yabai -m space --focus 5
+cmd - 6 : yabai -m space --focus 6
+cmd - 7 : yabai -m space --focus 7
+cmd - 8 : yabai -m space --focus 8
+cmd - 9 : yabai -m space --focus 9
+cmd - 0 : yabai -m space --focus 10
+
+# send window to desktop and follow focus
+shift + cmd - 1 : yabai -m window --space  1; yabai -m space --focus 1
+shift + cmd - 2 : yabai -m window --space  2; yabai -m space --focus 2
+shift + cmd - 3 : yabai -m window --space  3; yabai -m space --focus 3
+shift + cmd - 4 : yabai -m window --space  4; yabai -m space --focus 4
+shift + cmd - 5 : yabai -m window --space  5; yabai -m space --focus 5
+shift + cmd - 6 : yabai -m window --space  6; yabai -m space --focus 6
+shift + cmd - 7 : yabai -m window --space  7; yabai -m space --focus 7
+shift + cmd - 8 : yabai -m window --space  8; yabai -m space --focus 8
+shift + cmd - 9 : yabai -m window --space  9; yabai -m space --focus 9
+shift + cmd - 0 : yabai -m window --space 10; yabai -m space --focus 10
+#+END_SRC
