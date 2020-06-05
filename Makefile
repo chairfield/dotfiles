@@ -1,7 +1,10 @@
-all: git yabai
+all: git vim yabai
 
 git: git.org
 	bin/tangle git.org
+
+vim: vim.org
+	bin/tangle vim.org
 
 yabai: yabai.org
 	bin/tangle yabai.org
