@@ -1,0 +1,34 @@
+#+TITLE: Git config
+#+STARTUP: content
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: introduction
+:END:
+Generate Git config files. Makes use of =~/.config= to keep my homedir cleaner.
+
+#+BEGIN_SRC sh :tangle sh/install-git.sh
+ln -svf $PWD/out/gitconfig ~/.config/git/config
+ln -svf $PWD/out/gitignore ~/.config/git/ignore
+#+END_SRC
+** .gitconfig
+#+BEGIN_SRC sh :tangle out/gitconfig
+[user]
+  name = Chris Hairfield
+  email = chairfield@gmail.com
+#+END_SRC
+** .gitignore
+By default, Git searched for the global =.gitignore= in
+=$HOME/.config/git/ignore=.
+
+#+BEGIN_SRC sh :tangle out/gitignore
+# OS generated files
+.DS_Store
+desktop.ini
+Thumbs.db
+
+# Other files
+*.bak
+*~
+.~lock.*
+#+END_SRC

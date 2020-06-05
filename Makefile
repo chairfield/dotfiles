@@ -1,4 +1,7 @@
-all: yabai
+all: git yabai
+
+git: git.org
+	bin/tangle git.org
 
 yabai: yabai.org
 	bin/tangle yabai.org
