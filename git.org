@@ -8,6 +8,7 @@
 Generate Git config files. Makes use of =~/.config= to keep my homedir cleaner.
 
 #+BEGIN_SRC sh :tangle sh/install-git.sh
+mkdir -p ~/.config/git
 ln -svf $PWD/out/gitconfig ~/.config/git/config
 ln -svf $PWD/out/gitignore ~/.config/git/ignore
 #+END_SRC
