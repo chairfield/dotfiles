@@ -8,11 +8,15 @@
 Generate a script to install [[https://github.com/koekeishiya/yabai][yabai]]-related dotfiles:
 
 #+BEGIN_SRC sh :tangle sh/install-yabai.sh
-ln -sfv $PWD/out/yabairc ~/.yabairc
-chmod +x ~/.yabairc
-ln -sfv $PWD/out/spacebarrc ~/.spacebarrc
-chmod +x ~/.spacebarrc
-ln -sfv $PWD/out/skhdrc ~/.skhdrc
+if [ "$(uname 2> /dev/null)" = "Darwin" ]; then
+  ln -sfv $PWD/out/yabairc ~/.yabairc
+  chmod +x ~/.yabairc
+  ln -sfv $PWD/out/spacebarrc ~/.spacebarrc
+  chmod +x ~/.spacebarrc
+  ln -sfv $PWD/out/skhdrc ~/.skhdrc
+else
+  echo "Not linking yabai dotfiles since we're not on MacOS"
+fi
 #+END_SRC
 ** .yabairc
 :PROPERTIES:
