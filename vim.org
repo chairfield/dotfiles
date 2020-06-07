@@ -66,6 +66,9 @@ set wrap linebreak
 " Display tabs with a width of 4 "
 set tabstop=4
 
+" Allow backspacing over autoindent, line breaks, and the start of insert "
+set backspace=indent,eol,start
+
 " Store viminfo under ~/.vim to keep homedir clean "
 set viminfo+=n~/.vim/viminfo
 #+END_SRC
