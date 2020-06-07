@@ -1,0 +1,17 @@
+#+TITLE: Chemacs Emacs switcher config
+#+STARTUP: showall
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: introduction
+:END:
+[[https://github.com/plexus/chemacs][Chemacs]] enables easy Emacs profile switching. "Think of it as a bootloader for
+Emacs."
+
+#+BEGIN_SRC sh :tangle sh/install-chemacs-profiles.sh
+ln -svf $PWD/out/chemacs-profiles ~/.emacs-profiles.el
+#+END_SRC
+
+#+BEGIN_SRC sh :tangle out/chemacs-profiles
+(("default" . ((user-emacs-directory . "~/.config/emacs-vanilla"))))
+#+END_SRC

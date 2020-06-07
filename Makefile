@@ -1,6 +1,6 @@
 CHEMACS_DIR?=~/.chemacs
 
-all: chemacs git vim yabai
+all: chemacs chemacs-profiles emacs-vanilla git vim yabai
 
 .PHONY: chemacs
 chemacs:
@@ -9,6 +9,12 @@ chemacs:
 	  git clone https://github.com/plexus/chemacs.git $(CHEMACS_DIR); \
 	  cd ~; .chemacs/install.sh; \
 	fi
+
+chemacs-profiles: chemacs-profiles.org
+	bin/tangle chemacs-profiles.org
+
+emacs-vanilla: emacs-vanilla.org
+	bin/tangle emacs-vanilla.org
 
 git: git.org
 	bin/tangle git.org

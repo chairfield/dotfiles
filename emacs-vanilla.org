@@ -1,0 +1,60 @@
+#+TITLE: Vanilla Emacs config
+#+STARTUP: showall
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: introduction
+:END:
+Mostly unused, I keep a custom, mostly-vanilla Emacs configuration. It helps
+give me a better sense of what [[https://www.spacemacs.org/][Spacemacs]] and [[https://github.com/hlissner/doom-emacs][Doom Emacs]] offer.
+
+This configuration is both slow to load and produces errors the first time it's
+run, but serves its purposes regardless.
+
+#+BEGIN_SRC sh :tangle sh/install-emacs-vanilla.sh
+mkdir -p ~/.config/emacs-vanilla
+ln -svf $PWD/out/emacs-vanilla-init ~/.config/emacs-vanilla/init.el
+#+END_SRC
+
+** init.el
+:PROPERTIES:
+:CUSTOM_ID: init-el
+:END:
+Setup the [[https://melpa.org/#/][MELPA]] package archive.
+
+#+BEGIN_SRC sh :tangle out/emacs-vanilla-init
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+#+END_SRC
+
+Load MELPA package list, a very expensive step.
+
+#+BEGIN_SRC sh :tangle out/emacs-vanilla-init
+(package-refresh-contents)
+#+END_SRC
+
+Install and enable the [[https://www.emacswiki.org/emacs/Evil][Evil]] vi layer.
+
+=custom-set-variables= and =custom-set-faces= are Emacs- rather than
+Evil-specific and will need to be factored out in the future. According to the
+[[https://github.com/emacs-evil/evil][Evil documentation]], including them doesn't appear necessary.
+
+#+BEGIN_SRC sh :tangle out/emacs-vanilla-init
+(unless (package-installed-p 'evil)
+  (package-install 'evil))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages (quote (evil))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(require 'evil)
+(evil-mode 1)
+#+END_SRC
