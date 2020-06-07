@@ -1,0 +1,30 @@
+* My Dotfiles
+
+This is my first attempt at a homegrown dotfile management repo.
+
+It's based on Donald Knuth's [[http://www.literateprogramming.com/knuthweb.pdf][Literate Programming]] methodology, but built with
+Emacs' [[https://orgmode.org/][Org mode]] and its feature to [[https://orgmode.org/manual/Extracting-Source-Code.html][extract source code]], called _tangling_. To
+understand its implementation, begin by reviewing [[https://github.com/chairfield/dotfiles/blob/master/bin/tangle][bin/tangle.sh]] and [[https://github.com/chairfield/dotfiles/blob/master/Makefile][Makefile]].
+
+I make this project public for educational purposes only.
+
+** Acknowledgments
+
+I wish to thank the following authors for heavily inspiring the architecture of
+this repo:
+- Lee Hinman, over at [[https://writequit.org][writequit.org]] and his [[https://github.com/dakrone/eos][Emacs Operating System]] project, for
+  providing the core approach to generating my dotfiles via org-tangle
+- The [[http://doc.rix.si/cce/cce.html][Complete Computing Environment]] for inspiring both Lee and myself
+
+** Installation
+
+#+BEGIN_SRC shell
+$ git clone https://github.com/chairfield/dotfiles
+$ cd dotfiles
+$ make
+$ make install
+#+END_SRC
+
+** LICENSE
+
+Distributed under the terms of the GPL v3.
