@@ -11,6 +11,15 @@ and <Makefile>.
 
 I make this project public for educational purposes only.
 
+## Installation
+
+#+BEGIN_SRC shell
+$ git clone https://github.com/chairfield/dotfiles
+$ cd dotfiles
+$ make
+$ make install
+#+END_SRC
+
 ## Acknowledgments
 
 I wish to thank the following authors for heavily inspiring the architecture of
