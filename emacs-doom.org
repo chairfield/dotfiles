@@ -12,6 +12,10 @@ not knowing where to begin an attempt to try to disable it, I switched to
 Spacemacs. That said, I've noticed that Spacemacs has its downsides, and I hope
 to experiment with Doom more in the future.
 
+Doom's docs are improving. [[https://github.com/hlissner/doom-emacs/tree/develop/modules/lang/org][Here]] are its Org mode docs, including a note on how
+to revert the change it made to TAB cycling. Doom groups configuration settings
+on a per-module basis (e.g., [[https://github.com/hlissner/doom-emacs/blob/develop/modules/lang/org/config.el][org/config.el]]).
+
 #+BEGIN_SRC sh :tangle sh/install-emacs-doom.sh
 mkdir -p ~/.config/doom
 ln -svf $PWD/out/emacs-doom-config ~/.config/spacemacs/config.el
