@@ -18,9 +18,9 @@ on a per-module basis (e.g., [[https://github.com/hlissner/doom-emacs/blob/devel
 
 #+BEGIN_SRC sh :tangle sh/install-emacs-doom.sh
 mkdir -p ~/.config/doom
-ln -svf $PWD/out/emacs-doom-config ~/.config/spacemacs/config.el
-ln -svf $PWD/out/emacs-doom-init ~/.config/spacemacs/init.el
-ln -svf $PWD/out/emacs-doom-packages ~/.config/spacemacs/packages.el
+ln -svf $PWD/out/emacs-doom-config ~/.config/doom/config.el
+ln -svf $PWD/out/emacs-doom-init ~/.config/doom/init.el
+ln -svf $PWD/out/emacs-doom-packages ~/.config/doom/packages.el
 doom install
 doom sync
 doom doctor
