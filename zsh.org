@@ -1,0 +1,105 @@
+#+TITLE: Zsh config
+#+STARTUP: content
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: introduction
+:END:
+I am making use of =~/.zshrc= and =~/.zshenv= only (see [[#zsh-loading-order][Zsh Loading Order]]).
+
+** TODO Check out worthwhile plugins from oh-my-zsh
+for instance, =z= looks cool: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/z
+
+Since I surely won't go the whole way here, fork a GTD project to do this later,
+and loop in eshell experimentation too.
+** Zsh Loading Order
+:PROPERTIES:
+:CUSTOM_ID: zsh-loading-order
+:END:
+|               | Interactive Login | Interactive Non-Login | Script |
+|---------------+-------------------+-----------------------+--------|
+| /etc/zshenv   | A                 | A                     | A      |
+| ~/.zshenv     | B                 | B                     | B      |
+| /etc/zprofile | C                 |                       |        |
+| ~/.zprofile   | D                 |                       |        |
+| /etc/zshrc    | E                 | C                     |        |
+| ~/.zshrc      | F                 | D                     |        |
+| /etc/zlogin   | G                 |                       |        |
+| ~/.zlogin     | H                 |                       |        |
+|               |                   |                       |        |
+|               |                   |                       |        |
+| ~/.zlogout    | I                 |                       |        |
+| /etc/zlogout  | J                 |                       |        |
+(source [[https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/][here]])
+
+- a similar table to the above can be found early in this link: https://scriptingosx.com/2019/06/moving-to-zsh-part-2-configuration-files/
+- an amazing flowchart for zsh, bash, and sh can be found here: https://i.stack.imgur.com/17NoJ.png
+- re: login shells
+  - a login shell is the first process that executes under your user ID when you
+    log in for an interactive session
+- Scenarios (source [[https://unix.stackexchange.com/questions/38175/difference-between-login-shell-and-non-login-shell/522708#522708][here]])
+  - local terminal on MacOS -> interactive/login
+  - ansi-term in Emacs -> interactive/non-login
+  - supposedly, local terminal in X -> interactive/non-login
+  - typical SSH session without special options -> interactive/login
+  - running script or command locally via new shell -> interactive/non-login
+    - this is true whether run by =zsh script.sh= or =./script.sh=
+  - running local script remotely -> non-interactive/login
+  - supposedly, running remote script remotely -> non-interactive/non-login
+  - running command remotely -> non-interactive/non-login
+  - running command remotely with =-t= option -> interactive/non-login
+- SSH Server decides whether it's worthwhile to create a login shell or not
+  - =ssh host= (the login shell case) uses a [[https://en.wikipedia.org/wiki/Pseudoterminal][pseudoterminal]] on the remote host to communicate between =sshd= (the SSH server daemon) and the calling shell
+  - =ssh host command= uses pipes between =sshd= and =command=, instead
+  - Pseudoterminals are necessary for:
+    - shell
+    - REPL of a scripting language
+    - a bunch of human-friendly features like being able to backspace over typos
+  - However, pseudoterminals have more overhead
+  - SSH offers toggles:
+    - =-T= disables pseudoterminal allocation
+      - poster can't think of a reason to ever use this, but it's there
+    - =-t= forces pseudoterminal allocation
+      - apparently this can be useful, for example, when reattaching a suspended =screen= session
+      - multiple =-t= options force tty allocation, even if ssh has no local tty
+- .zprofile (source [[https://superuser.com/questions/187639/zsh-not-hitting-profile][here]])
+  - typically, .zprofile might start some programs that you want run once when
+    you log in or for the whole session
+  - .zshrc contains things that must be done for every shell instance, such as
+    alias function definitions, shell option settings, completion settings,
+    prompt settings, key bindings, etc.
+- [X] .zprofile vs .zlogin?
+  - `.zlogin' is sourced in login shells. It should contain commands that should
+    be executed only in login shells. `.zlogout' is sourced when login shells
+    exit. `.zprofile' is similar to `.zlogin', except that it is sourced before
+    `.zshrc'. `.zprofile' is meant as an alternative to `.zlogin' for ksh fans;
+    the two are not intended to be used together, although this could certainly
+    be done if desired. `.zlogin' is not the place for alias definitions,
+    options, environment variable settings, etc.; as a general rule, it should
+    not change the shell environment at all. Rather, it should be used to set
+    the terminal type and run a series of external commands (fortune, msgs,
+    etc). (source [[http://zsh.sourceforge.net/Intro/intro_3.html][here]])
+    - .zlogout can clear the terminal or any other resource which was setup at login
+  - some guy (source [[https://unix.stackexchange.com/questions/71253/what-should-shouldnt-go-in-zshenv-zshrc-zlogin-zprofile-zlogout][here]]) uses .zlogin _and_ .zprofile, and .zprofile for:
+    - environment variables to configure tools (flags for compilation, data folder location, etc.)
+    - configuration which execute commands (e.g., running =$(nproc)=)
+      - shoudl I don't see why I'd want this in addition to .zlogin, unless it's
+        clear that I want to run a one-time command either before or after
+        .zshrc
+- .zshenv
+  - `.zshenv' is sourced on all invocations of the shell, unless the -f option
+    is set (=-f= prevents all zsh starup files from being sourced). It should
+    contain commands to set the command search path, plus other important
+    environment variables. `.zshenv' should not contain commands that produce
+    output or assume the shell is attached to a tty.
+  - Do _not_ change the behavior of standard commands, as this file is sourced in all contexts (e.g., =make=)
+- .zshrc
+  - `.zshrc' is sourced in interactive shells. It should contain commands to set
+    up aliases, functions, options, key bindings, output coloring, command
+    history mgmt, command completion/correction/suggestion/highlighting, etc.
+- [X] how does oh-my-zsh treat .zshenv, .zlogin, .zlogout, and .zprofile?
+  - It _only_ affects .zshrc
+- [ ] since MacOS does this differently, I may want to have my System76 machine
+  up, with SSH enabled, for testing
+  - then I could test scripts and commands, remote and local, iTerm and X and
+    ansi-term and eshell, zsh vs. sh (if warranted)
