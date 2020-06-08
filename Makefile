@@ -1,6 +1,14 @@
 CHEMACS_DIR?=~/.chemacs
+SPACEMACS_DIR?=~/.spacemacs
 
-all: chemacs chemacs-profiles emacs-vanilla git vim yabai
+emacs-targets = \
+	chemacs \
+	chemacs-profiles \
+	spacemacs \
+	emacs-spacemacs \
+	emacs-vanilla
+
+all: $(emacs-targets) git vim yabai
 
 .PHONY: chemacs
 chemacs:
@@ -12,6 +20,16 @@ chemacs:
 
 chemacs-profiles: chemacs-profiles.org
 	bin/tangle chemacs-profiles.org
+
+.PHONY: spacemacs
+spacemacs:
+	@if [ ! -d $(SPACEMACS_DIR) ]; then \
+	  echo "$(SPACEMACS_DIR) does not exist, cloning repo..."; \
+	  git clone https://github.com/syl20bnr/spacemacs $(SPACEMACS_DIR); \
+	fi
+
+emacs-spacemacs: emacs-spacemacs.org
+	bin/tangle emacs-spacemacs.org
 
 emacs-vanilla: emacs-vanilla.org
 	bin/tangle emacs-vanilla.org

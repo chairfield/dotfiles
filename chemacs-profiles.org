@@ -13,5 +13,7 @@ ln -svf $PWD/out/chemacs-profiles ~/.emacs-profiles.el
 #+END_SRC
 
 #+BEGIN_SRC sh :tangle out/chemacs-profiles
-(("default" . ((user-emacs-directory . "~/.config/emacs-vanilla"))))
+(("vanilla" . ((user-emacs-directory . "~/.config/emacs-vanilla")))
+ ("default" . ((user-emacs-directory . "~/.spacemacs")
+                 (env . (("SPACEMACSDIR" . "~/.config/spacemacs"))))))
 #+END_SRC
