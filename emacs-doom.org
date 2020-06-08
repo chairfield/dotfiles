@@ -247,6 +247,10 @@ doom doctor
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
+;; Source 0.6.3: https://dotdoom.netlify.com/config.html#orgca729f4
+(map! :leader
+      (:prefix "o"
+        :desc "ansi-term" "t" #'ansi-term))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
