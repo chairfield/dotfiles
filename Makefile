@@ -1,12 +1,15 @@
 CHEMACS_DIR?=~/.chemacs
+DOOM_DIR?=~/.doom-emacs
 SPACEMACS_DIR?=~/.spacemacs
 
 emacs-targets = \
 	chemacs \
 	chemacs-profiles \
+	doom \
+	emacs-doom-dotfiles \
 	spacemacs \
-	emacs-spacemacs \
-	emacs-vanilla
+	emacs-spacemacs-dotfiles \
+	emacs-vanilla-dotfiles
 
 all: $(emacs-targets) git vim yabai
 
@@ -21,6 +24,16 @@ chemacs:
 chemacs-profiles: chemacs-profiles.org
 	bin/tangle chemacs-profiles.org
 
+.PHONY: doom
+doom:
+	@if [ ! -d $(DOOM_DIR) ]; then \
+	  echo "$(DOOM_DIR) does not exist, cloning repo..."; \
+	  git clone --depth 1 https://github.com/hlissner/doom-emacs $(DOOM_DIR); \
+	fi
+
+emacs-doom-dotfiles: emacs-doom.org
+	bin/tangle emacs-doom.org
+
 .PHONY: spacemacs
 spacemacs:
 	@if [ ! -d $(SPACEMACS_DIR) ]; then \
@@ -28,10 +41,10 @@ spacemacs:
 	  git clone https://github.com/syl20bnr/spacemacs $(SPACEMACS_DIR); \
 	fi
 
-emacs-spacemacs: emacs-spacemacs.org
+emacs-spacemacs-dotfiles: emacs-spacemacs.org
 	bin/tangle emacs-spacemacs.org
 
-emacs-vanilla: emacs-vanilla.org
+emacs-vanilla-dotfiles: emacs-vanilla.org
 	bin/tangle emacs-vanilla.org
 
 git: git.org
