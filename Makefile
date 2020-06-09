@@ -9,7 +9,8 @@ emacs-targets = \
 	emacs-doom-dotfiles \
 	spacemacs \
 	emacs-spacemacs-dotfiles \
-	emacs-vanilla-dotfiles
+	emacs-vanilla-dotfiles \
+	emacs-yasnippet
 
 all: $(emacs-targets) git vim yabai
 
@@ -46,6 +47,9 @@ emacs-spacemacs-dotfiles: emacs-spacemacs.org
 
 emacs-vanilla-dotfiles: emacs-vanilla.org
 	bin/tangle emacs-vanilla.org
+
+emacs-yasnippet: emacs-yasnippet.org
+	bin/tangle emacs-yasnippet.org
 
 git: git.org
 	bin/tangle git.org
