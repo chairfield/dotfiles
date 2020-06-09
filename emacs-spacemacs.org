@@ -9,6 +9,7 @@
 framework to learn Emacs in as it's rich in features yet avoids customizing the
 modes I use regularly, especially Org mode.
 
+** Install script
 Spacemacs comes prepared with its default layers, but it expects them in
 =~/.config/spacemacs/layers=, so symlink the layers directory in addition to
 configuring the =.el= files.
@@ -26,7 +27,7 @@ fi
 #+END_SRC
 
 ** init.el
-#+BEGIN_SRC sh :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
 ;; -*- mode: emacs-lisp -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
@@ -41,7 +42,7 @@ You should not put any user code in this function besides modifying the variable
 values."
 #+END_QUOTE
 
-#+BEGIN_SRC sh :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
 (defun dotspacemacs/layers ()
   (setq-default
    ;; Base distribution to use. This is a layer contained in the directory
@@ -122,7 +123,7 @@ You should not put any user code in there besides modifying the variable
 values."
 #+END_QUOTE
 
-#+BEGIN_SRC sh :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
 (defun dotspacemacs/init ()
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
@@ -366,7 +367,7 @@ Spacemacs, so this setting prevents the feature from cluttering my Spacemacs
 It also seems possible that one could disable the feature altogether (see [[https://www.reddit.com/r/emacs/comments/4x655n/packageselectedpackages_always_appear_after/][this
 thread]]), though I see benefit in allowing temporary customizations.
 
-#+BEGIN_SRC sh :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
 (defun dotspacemacs/user-init ()
   (setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
   (load custom-file))
@@ -377,7 +378,7 @@ exist. I don't symlink because I want customizations to persist across =make=
 invocations. Ideally, I'll move any customizations worth keeping into the
 [[#user-config][user-config]] section.
 
-#+BEGIN_SRC sh :tangle out/emacs-spacemacs-custom
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-custom
 (custom-set-variables)
 (custom-set-faces)
 #+END_SRC
@@ -398,9 +399,13 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 #+END_QUOTE
 
-#+BEGIN_SRC sh :tangle out/emacs-spacemacs-init
-(defun dotspacemacs/user-config ()
+Open the section.
 
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+(defun dotspacemacs/user-config ()
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
   ;; Imports Unicode characters like é and ¼, accessible via the =C-x 8= prefix
   ;; key.
   (require 'iso-transl)
@@ -491,6 +496,10 @@ you should place your code here."
   ;; - avy-org-refile-as-child: like standard refile, but makes it easy to
   ;;   refile to headings visible in other windows or buffers
   ;; Avy is also customizable, should I want non-default functionality.
+#+END_SRC
 
+Close the section.
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
   )
 #+END_SRC

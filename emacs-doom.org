@@ -27,7 +27,7 @@ doom doctor
 #+END_SRC
 
 ** init.el
-#+BEGIN_SRC sh :tangle out/emacs-doom-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-init
 ;;; init.el -*- lexical-binding: t; -*-
 
 ;; This file controls what Doom modules are enabled and what order they load
@@ -209,7 +209,7 @@ doom doctor
        (default +bindings +smartparens))
 #+END_SRC
 ** config.el
-#+BEGIN_SRC sh :tangle out/emacs-doom-config
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-config
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
@@ -270,7 +270,7 @@ doom doctor
 ;; they are implemented.
 #+END_SRC
 ** packages.el
-#+BEGIN_SRC sh :tangle out/emacs-doom-packages
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-packages
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 

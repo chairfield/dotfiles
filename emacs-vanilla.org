@@ -22,7 +22,7 @@ ln -svf $PWD/out/emacs-vanilla-init ~/.config/emacs-vanilla/init.el
 :END:
 Setup the [[https://melpa.org/#/][MELPA]] package archive.
 
-#+BEGIN_SRC sh :tangle out/emacs-vanilla-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-vanilla-init
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
@@ -30,7 +30,7 @@ Setup the [[https://melpa.org/#/][MELPA]] package archive.
 
 Load MELPA package list, a very expensive step.
 
-#+BEGIN_SRC sh :tangle out/emacs-vanilla-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-vanilla-init
 (package-refresh-contents)
 #+END_SRC
 
@@ -40,7 +40,7 @@ Install and enable the [[https://www.emacswiki.org/emacs/Evil][Evil]] vi layer.
 Evil-specific and will need to be factored out in the future. According to the
 [[https://github.com/emacs-evil/evil][Evil documentation]], including them doesn't appear necessary.
 
-#+BEGIN_SRC sh :tangle out/emacs-vanilla-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-vanilla-init
 (unless (package-installed-p 'evil)
   (package-install 'evil))
 (custom-set-variables
