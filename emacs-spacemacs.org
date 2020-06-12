@@ -442,7 +442,10 @@ Open the section.
                                  "* TODO %i%?")
                                 ("T" "Tickler" entry
                                  (file "~/Org/tickler.org")
-                                 "* %i%? \n %U")))
+                                 "* %i%? \n %U")
+                                ("g" "Gratitudes" entry
+                                 (file+datetree "~/Org/gratitudes.org")
+                                 "* %U\n1. %i%?" :tree-type week)))
 
   (setq org-todo-keywords '((sequence
                              "TODO(t)" "WF(w)" "NA(n)"
