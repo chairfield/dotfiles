@@ -1,5 +1,5 @@
 #+TITLE: Spacemacs config
-#+STARTUP: contents
+#+STARTUP: content
 
 * Introduction
 :PROPERTIES:
