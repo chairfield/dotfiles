@@ -433,23 +433,26 @@ Open the section.
     ;; Replace org-set-tags with Counsel in keybinding
     (spacemacs/set-leader-keys-for-major-mode 'org-mode ":" 'counsel-org-tag))
 
-  (setq org-agenda-files '("~/Org/inbox.org"
-                           "~/Org/gtd.org"
-                           "~/Org/tickler.org"))
+  (setq org-agenda-files
+        '("~/Org/inbox.org"
+          "~/Org/gtd.org"
+          "~/Org/tickler.org"))
 
-  (setq org-capture-templates '(("t" "TODO [inbox]" entry
-                                 (file "~/Org/inbox.org")
-                                 "* TODO %i%?")
-                                ("T" "Tickler" entry
-                                 (file "~/Org/tickler.org")
-                                 "* %i%? \n %U")
-                                ("g" "Gratitudes" entry
-                                 (file+datetree "~/Org/gratitudes.org")
-                                 "* %U\n1. %i%?" :tree-type week)))
+  (setq org-capture-templates
+        '(("t" "TODO [inbox]" entry
+           (file "~/Org/inbox.org")
+           "* TODO %i%?")
+          ("T" "Tickler" entry
+           (file "~/Org/tickler.org")
+           "* %i%? \n %U")
+          ("g" "Gratitudes" entry
+           (file+datetree "~/Org/gratitudes.org")
+           "* %U\n1. %i%?" :tree-type week)))
 
-  (setq org-todo-keywords '((sequence
-                             "TODO(t)" "WF(w)" "NA(n)"
-                             "|" "DONE(d)")))
+  (setq org-todo-keywords
+        '((sequence
+           "TODO(t)" "WF(w)" "NA(n)"
+           "|" "DONE(d)")))
   (setq org-todo-keyword-faces
         '(("WF" . "brown")
           ("NA" . "orange")))
@@ -480,10 +483,11 @@ Load the [[https://github.com/joaotavora/yasnippet][YASnippet]] template system.
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; org-mode refile
   ;;
-  (setq org-refile-targets '(("~/Org/inbox" :level . 0)
-                             ("~/Org/gtd.org" :maxlevel . 3)
-                             ("~/Org/someday.org" :level . 2)
-                             ("~/Org/tickler.org" :maxlevel . 2)))
+  (setq org-refile-targets
+        '(("~/Org/inbox" :level . 0)
+          ("~/Org/gtd.org" :maxlevel . 3)
+          ("~/Org/someday.org" :level . 2)
+          ("~/Org/tickler.org" :maxlevel . 2)))
   ;; Shows the filename and full heading path, rather than just the heading
   ;; itself. Allows refiling to the top level of a file.
   (setq org-refile-use-outline-path 'file)
