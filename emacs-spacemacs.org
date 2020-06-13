@@ -437,7 +437,26 @@ Open the section.
         '("~/Org/inbox.org"
           "~/Org/gtd.org"
           "~/Org/tickler.org"))
+#+END_SRC
 
+Entry types:
+- file :: Text will be placed at the end of the file (beginning with an option)
+- file+datetree :: Enters text in datetree for current day
+- file+datetree+prompt :: Enters text in datetree for prompted day
+
+Template expansions:
+- '%<%H:%M>' :: Calls [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Time-Parsing.html][format-time-string]], in this case printing 24-hour time
+- '%i' :: Initial content, pasted from whatever was in the active selection
+- '%K' :: Auto-genned link to the currently-clocked task
+- '%a' :: Auto-genned link resulting from org-store-link under cursor
+- '%U' :: Inactive timestamp with date+time
+- '%?' :: After completing the template, position point here
+
+I considered the popular =org-journal= package, but found that =org-capture= is
+powerful enough and I'd rather err on the side of too few packages than too
+many. Credit for the core of my journal template goes to [[https://sachachua.com/blog/2014/11/using-org-mode-keep-process-journal/][Sasha Chua]].
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
   (setq org-capture-templates
         '(("t" "TODO [inbox]" entry
            (file "~/Org/inbox.org")
@@ -445,9 +464,12 @@ Open the section.
           ("T" "Tickler" entry
            (file "~/Org/tickler.org")
            "* %i%? \n %U")
+          ("j" "Journal Entry" entry
+           (file+datetree+prompt "~/Org/journal.org")
+           "* %<%H:%M> %K - %a\n%?" :tree-type week)
           ("g" "Gratitudes" entry
            (file+datetree "~/Org/gratitudes.org")
-           "* %U\n1. %i%?" :tree-type week)))
+           "* %<%H:%M>\n1. %i%?" :tree-type week)))
 
   (setq org-todo-keywords
         '((sequence
