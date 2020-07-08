@@ -469,7 +469,7 @@ many. Credit for the core of my journal template goes to [[https://sachachua.com
            "* %<%H:%M> %K - %a\n%?" :tree-type week)
           ("g" "Gratitudes" entry
            (file+datetree "~/Org/gratitudes.org")
-           "* %<%H:%M>\n1. %i%?" :tree-type week)))
+           "_%<%H:%M>_\n1. %i%?" :tree-type week)))
 
   (setq org-todo-keywords
         '((sequence
