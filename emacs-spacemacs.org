@@ -413,7 +413,7 @@ Open the section.
 
   (defun gtd ()
     (interactive)
-    (find-file "~/Org/gtd.org"))
+    (find-file "~/Org/gtd/projects.org"))
 
   (setq-default org-catch-invisible-edits 'smart)
 
@@ -434,9 +434,9 @@ Open the section.
     (spacemacs/set-leader-keys-for-major-mode 'org-mode ":" 'counsel-org-tag))
 
   (setq org-agenda-files
-        '("~/Org/inbox.org"
-          "~/Org/gtd.org"
-          "~/Org/tickler.org"))
+        '("~/Org/gtd/inbox.org"
+          "~/Org/gtd/projects.org"
+          "~/Org/gtd/tickler.org"))
 #+END_SRC
 
 Entry types:
@@ -459,10 +459,10 @@ many. Credit for the core of my journal template goes to [[https://sachachua.com
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
   (setq org-capture-templates
         '(("t" "TODO [inbox]" entry
-           (file "~/Org/inbox.org")
+           (file "~/Org/gtd/inbox.org")
            "* TODO %i%?")
           ("T" "Tickler" entry
-           (file "~/Org/tickler.org")
+           (file "~/Org/gtd/tickler.org")
            "* %i%? \n %U")
           ("j" "Journal Entry" entry
            (file+datetree+prompt "~/Org/journal.org")
@@ -506,10 +506,10 @@ Load the [[https://github.com/joaotavora/yasnippet][YASnippet]] template system.
   ;; org-mode refile
   ;;
   (setq org-refile-targets
-        '(("~/Org/inbox" :level . 0)
-          ("~/Org/gtd.org" :maxlevel . 3)
-          ("~/Org/someday.org" :level . 2)
-          ("~/Org/tickler.org" :maxlevel . 2)))
+        '(("~/Org/gtd/inbox" :level . 0)
+          ("~/Org/gtd/projects.org" :maxlevel . 1)
+          ("~/Org/gtd/someday.org" :level . 2)
+          ("~/Org/gtd/tickler.org" :level . 0)))
   ;; Shows the filename and full heading path, rather than just the heading
   ;; itself. Allows refiling to the top level of a file.
   (setq org-refile-use-outline-path 'file)
