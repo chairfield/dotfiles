@@ -507,10 +507,10 @@ Load the [[https://github.com/joaotavora/yasnippet][YASnippet]] template system.
   ;;
   (setq org-refile-targets
         '(("~/Org/gtd/agendas.org" :level . 1)
-          ("~/Org/gtd/buckets.org" :level . 1)
+          ("~/Org/gtd/backburner.org" :level . 0)
           ("~/Org/gtd/inbox.org" :level . 0)
           ("~/Org/gtd/projects.org" :maxlevel . 1)
-          ("~/Org/gtd/someday.org" :level . 0)
+          ("~/Org/gtd/someday-maybe.org" :level . 1)
           ("~/Org/gtd/tickler.org" :level . 0)))
   ;; Shows the filename and full heading path, rather than just the heading
   ;; itself. Allows refiling to the top level of a file.
