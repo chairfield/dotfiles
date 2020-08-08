@@ -17,6 +17,8 @@ ln -svf $PWD/out/gitignore ~/.config/git/ignore
 [user]
   name = Chris Hairfield
   email = chairfield@gmail.com
+[alias]
+  adog = log --all --decorate --oneline --graph
 #+END_SRC
 ** .gitignore
 By default, Git searched for the global =.gitignore= in
