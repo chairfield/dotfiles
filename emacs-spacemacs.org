@@ -473,11 +473,23 @@ many. Credit for the core of my journal template goes to [[https://sachachua.com
 
   (setq org-todo-keywords
         '((sequence
-           "TODO(t)" "WF(w)" "NA(n)"
+           "TODO(t)" "NEXT(n)" "PROJ(p)" "WAITING(w)"
            "|" "DONE(d)")))
+#+END_SRC
+
+The =M-x list-colors-display= command shows each pre-defined color, though I can
+use RGB triplets for maximum flexibility. There also exist the pre-defined faces
+=org-todo=, =org-warning=, =org-done=, and a few others. Disable =hl-todo-mode=,
+as it overwrites some of my =org-todo-keyword-faces= settings.
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+  (add-hook 'org-mode-hook (lambda () (hl-todo-mode -1)))
   (setq org-todo-keyword-faces
-        '(("WF" . "brown")
-          ("NA" . "orange")))
+        '(("TODO" . "#cc9393")
+          ("WAITING" . "violet")
+          ("PROJ" . "light slate gray")
+          ("NEXT" . "#bf4747")
+          ("DONE" . "#96e396")))
 #+END_SRC
 
 Load the [[https://github.com/joaotavora/yasnippet][YASnippet]] template system. My implementation is described in
