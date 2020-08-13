@@ -470,10 +470,21 @@ many. Credit for the core of my journal template goes to [[https://sachachua.com
           ("g" "Gratitudes" entry
            (file+datetree "~/Org/gratitudes.org")
            "_%<%H:%M>_\n1. %i%?" :tree-type week)))
+#+END_SRC
 
+My naming of these keywords prioritizes consistent widths (4-character), relying
+on color-coding for differentiation, at the slight expense of typeability (most
+noticeable when typing =NEXT=, versus the shorter alternative of =NA=).
+
+While a =PROJ= keyword isn't strictly necessary (I try to keep track of
+sub-projects with a =[/]= in parent headers), I'm experimenting with maintaining
+it in order to allow efficient filtering of currently-active projects via sparse
+trees and the agenda view.
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
   (setq org-todo-keywords
         '((sequence
-           "TODO(t)" "NEXT(n)" "PROJ(p)" "WAITING(w)"
+           "TODO(t)" "NEXT(n)" "PROJ(p)" "WAIT(w)"
            "|" "DONE(d)")))
 #+END_SRC
 
@@ -486,7 +497,7 @@ as it overwrites some of my =org-todo-keyword-faces= settings.
   (add-hook 'org-mode-hook (lambda () (hl-todo-mode -1)))
   (setq org-todo-keyword-faces
         '(("TODO" . "#cc9393")
-          ("WAITING" . "violet")
+          ("WAIT" . "violet")
           ("PROJ" . "light slate gray")
           ("NEXT" . "#bf4747")
           ("DONE" . "#96e396")))
