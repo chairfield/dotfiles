@@ -557,6 +557,8 @@ Load the [[https://github.com/joaotavora/yasnippet][YASnippet]] template system.
 Settings for =org-pomodoro=.
 
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+  ;; Simplify the format of the mode line string during a pomodoro session.
+  (setq org-pomodoro-format "%s")
   ;; Allows me to extend past the 25-minute pomodoro time limit.
   (setq org-pomodoro-manual-break t)
   ;; Keeps the clocked time of killed pomodoros.
