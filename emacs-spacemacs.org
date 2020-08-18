@@ -406,11 +406,13 @@ Open the section.
 (defun dotspacemacs/user-config ()
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
-  ;; Imports Unicode characters like é and ¼, accessible via the =C-x 8= prefix
-  ;; key.
-  (require 'iso-transl)
+Imports Unicode characters like é and ¼, accessible via the =C-x 8= prefix key.
 
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+  (require 'iso-transl)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
   (defun gtd ()
     (interactive)
     (find-file "~/Org/gtd/projects.org"))
@@ -512,10 +514,9 @@ Load the [[https://github.com/joaotavora/yasnippet][YASnippet]] template system.
   (setq yas-snippet-dirs '("~/.emacs-snippets"))
 #+END_SRC
 
+Settings for =org-pomodoro=.
+
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; org-pomodoro
-  ;;
   ;; Allows me to extend past the 25-minute pomodoro time limit.
   (setq org-pomodoro-manual-break t)
   ;; Keeps the clocked time of killed pomodoros.
@@ -524,7 +525,9 @@ Load the [[https://github.com/joaotavora/yasnippet][YASnippet]] template system.
   (setq org-pomodoro-finished-sound-args "-volume 0.2")
   (setq org-pomodoro-long-break-sound-args "-volume 0.2")
   (setq org-pomodoro-short-break-sound-args "-volume 0.2")
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; org-mode refile
   ;;
