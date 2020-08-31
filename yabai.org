@@ -85,6 +85,12 @@ spacebar -m config status_bar_clock_format      "%Y-%m-%d %R"
 [[https://github.com/koekeishiya/skhd][skhd]] is a MacOS hotkey daemon that I am using for driving [[https://github.com/koekeishiya/yabai][yabai]].
 
 #+BEGIN_SRC sh :tangle out/skhdrc
+# focus window (=alt= is the Windows key on MacOS)
+alt - h : yabai -m window --focus west
+alt - j : yabai -m window --focus south
+alt - k : yabai -m window --focus north
+alt - l : yabai -m window --focus east
+
 # swap window
 shift + alt - h : yabai -m window --swap west
 shift + alt - j : yabai -m window --swap south
