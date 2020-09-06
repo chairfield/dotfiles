@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: [D]eming Cycle - [O]bservation - 5-Why [A]nalysis
+# key: doa
+# --
+NEXT 5-Why Analysis
+- Point of Cause: $1
+  - Affinity Statement #1: $0
+    - Why? 
+
+_Root Cause(s)_:
+- 

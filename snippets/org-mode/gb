@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: [G]TD =[B]rainstorm= Header & Section
+# key: gb
+# --
+NEXT Brainstorm $1
+- $0

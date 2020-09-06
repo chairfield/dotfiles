@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: [G]TD - [P]roject Header
+# key: gp
+# --
+PROJ [/] $0
