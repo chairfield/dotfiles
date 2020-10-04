@@ -69,14 +69,14 @@ from the yabai repo at its 3.0.0 release.
 
 [[ -o interactive ]] && echo "+++Reading .spacebarrc"
 
-spacebar -m config status_bar_text_font         "Helvetica Neue:Bold:12.0"
-spacebar -m config status_bar_icon_font         "Font Awesome 5 Free:Solid:12.0"
-spacebar -m config status_bar_background_color  0xff202020
-spacebar -m config status_bar_foreground_color  0xffa8a8a8
-spacebar -m config status_bar_space_icon_strip  1-EN 2-emacs 3 4 5 6 7-calc 8-ref 9-msgs music
-spacebar -m config status_bar_power_icon_strip   
-spacebar -m config status_bar_clock_icon        
-spacebar -m config status_bar_clock_format      "%Y-%m-%d %R"
+spacebar -m config text_font         "Helvetica Neue:Bold:12.0"
+spacebar -m config icon_font         "Font Awesome 5 Free:Solid:12.0"
+spacebar -m config background_color  0xff202020
+spacebar -m config foreground_color  0xffa8a8a8
+spacebar -m config space_icon_strip  1-EN 2-emacs 3-ff 4 5 6 7 8 9 0
+spacebar -m config power_icon_strip   
+spacebar -m config clock_icon        
+spacebar -m config clock_format      "%Y-%m-%d %R"
 #+END_SRC
 ** .skhdrc
 :PROPERTIES:
