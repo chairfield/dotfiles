@@ -469,6 +469,10 @@ horizontally over vertically, so a process like this wouldn't be possible:
     :config
     (setq org-startup-indented t))
 
+  ;; Disable tab emulation so that <tab> will /always/ cycle the current subtree
+  ;; visibility, instead of only doing so when the cursor is on the headline.
+  (setq org-cycle-emulate-tab nil)
+
   ;; Fix bug in spacemacs master branch with org-set-tags.
   ;; Source: https://emacs.stackexchange.com/questions/48906/spacemacs-error-wrong-type-argument-commandp-org-set-tags-when-setting-tag
   (with-eval-after-load 'org
