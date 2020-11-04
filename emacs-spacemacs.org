@@ -473,6 +473,10 @@ horizontally over vertically, so a process like this wouldn't be possible:
   ;; visibility, instead of only doing so when the cursor is on the headline.
   (setq org-cycle-emulate-tab nil)
 
+  ;; Save the target archive buffer after archiving a subtree. Requires org-mode
+  ;; version 9.4+.
+  (setq org-archive-subtree-save-file-p t)
+
   ;; Fix bug in spacemacs master branch with org-set-tags.
   ;; Source: https://emacs.stackexchange.com/questions/48906/spacemacs-error-wrong-type-argument-commandp-org-set-tags-when-setting-tag
   (with-eval-after-load 'org
@@ -611,6 +615,13 @@ Settings for =org-pomodoro=.
   ;; - avy-org-refile-as-child: like standard refile, but makes it easy to
   ;;   refile to headings visible in other windows or buffers
   ;; Avy is also customizable, should I want non-default functionality.
+
+  ;; Reload org to fix a spacemacs bug related to =org-startup-indented=,
+  ;; introduced when upgrading Spacemacs packages, per:
+  ;; https://emacs.stackexchange.com/questions/54005/problem-with-org-startup-indented
+  ;;
+  ;; I find it unfortunate that so many Spacemacs users recommend such a hack.
+  (org-reload)
 #+END_SRC
 
 Close the section.
