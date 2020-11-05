@@ -630,6 +630,8 @@ Use it as follows:
   ;; Avy is also customizable, should I want non-default functionality.
 #+END_SRC
 
+Settings for org-mode's export, specifically LaTeX export.
+
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
   ;; The last level which is still exported as a headline.
   ;;
@@ -660,6 +662,35 @@ Use it as follows:
       (""     "capt-of"   nil)
       (""     "titletoc"  nil)
       (""     "hyperref"  nil)))
+#+END_SRC
+
+I found these [[https://ctan.org/pkg/koma-script?lang=en][KOMA script]] classes on [[https://orgmode.org/worg/org-tutorials/org-latex-export.html][Worg]], which I slightly prefer the format
+of.
+
+A handy trick I found for when I wanted my exports to include wide-margin
+section headers without making them org headlines is the =\minisec{...}=
+command. It's specific to KOMA and is used for, in =koma-book= at least,
+5th-level org-headlines. See section 3.6 of the [[http://www.ctex.org/documents/packages/nonstd/koma-script.pdf][KOMA Script spec]] for more.
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+  (add-to-list 'org-latex-classes
+               '("koma-article"
+                 "\\documentclass{scrartcl}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+               )
+  (add-to-list 'org-latex-classes
+               '("koma-book"
+                 "\\documentclass{scrbook}"
+                 ("\\part{%s}" . "\\part*{%s}")
+                 ("\\chapter{%s}" . "\\chapter*{%s}")
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+               )
 #+END_SRC
 
 Reload org to fix a spacemacs bug related to =org-startup-indented=, introduced
