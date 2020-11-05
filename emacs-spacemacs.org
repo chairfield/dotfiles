@@ -630,6 +630,19 @@ Use it as follows:
   ;; Avy is also customizable, should I want non-default functionality.
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+  ;; The last level which is still exported as a headline.
+  ;;
+  ;; Inferior levels will usually produce itemize or enumerate lists when
+  ;; exported, but back-end behavior may differ.
+  ;;
+  ;; This option can also be set with the OPTIONS keyword, e.g. "H:2".
+  ;;
+  ;; Here I override the default of 3 for all files. This is particularly useful
+  ;; in *book document classes.
+  (setq org-export-headline-levels 5)
+#+END_SRC
+
 Reload org to fix a spacemacs bug related to =org-startup-indented=, introduced
 when upgrading Spacemacs packages, per [[https://emacs.stackexchange.com/questions/54005/problem-with-org-startup-indented][StackExchange]].
 
