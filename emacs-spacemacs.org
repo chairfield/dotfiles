@@ -577,10 +577,9 @@ Settings for =org-pomodoro=.
   (setq org-pomodoro-short-break-sound-args "-volume 0.2")
 #+END_SRC
 
+Settings for =org-refile=.
+
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; org-mode refile
-  ;;
   (setq org-refile-targets
         '(("~/Org/gtd/agendas.org" :level . 1)
           ("~/Org/gtd/backburner.org" :level . 0)
@@ -599,14 +598,28 @@ Settings for =org-pomodoro=.
   ;; the Helm query must match the full entry name.
   ;; TODO: Learn how to append a parent to a partial Helm match
   (setq org-refile-allow-creating-parent-nodes 'confirm)
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
   (use-package org-download
     :after org
     :config
     (setq-default org-download-image-dir "~/Org/media/")
     (if (equal system-type 'darwin)
       (setq org-download-screenshot-method "/usr/sbin/screencapture -i %s")))
+#+END_SRC
 
+Setup the [j]ump [t]imer key chord. Input an arbitrary amount of consecutive
+chars, jump to the first one with a tree.
+
+Use it as follows:
+1. Invoke it
+2. Start typing any number of characters for the search
+   - After =avy-timeout-seconds= (0.5s by default), the results will be shown
+3. If there are multiple results, use avy-style jumping to select the desired
+   match; otherwise, the cursor will automatically move to the only match
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
   ;; Be careful - some key in a layer I don't have installed yet may use this
   ;; sequence.
   (spacemacs/set-leader-keys "jt" 'avy-goto-char-timer)
@@ -615,12 +628,14 @@ Settings for =org-pomodoro=.
   ;; - avy-org-refile-as-child: like standard refile, but makes it easy to
   ;;   refile to headings visible in other windows or buffers
   ;; Avy is also customizable, should I want non-default functionality.
+#+END_SRC
 
-  ;; Reload org to fix a spacemacs bug related to =org-startup-indented=,
-  ;; introduced when upgrading Spacemacs packages, per:
-  ;; https://emacs.stackexchange.com/questions/54005/problem-with-org-startup-indented
-  ;;
-  ;; I find it unfortunate that so many Spacemacs users recommend such a hack.
+Reload org to fix a spacemacs bug related to =org-startup-indented=, introduced
+when upgrading Spacemacs packages, per [[https://emacs.stackexchange.com/questions/54005/problem-with-org-startup-indented][StackExchange]].
+
+I find it unfortunate that so many Spacemacs users recommend such a hack.
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
   (org-reload)
 #+END_SRC
 
