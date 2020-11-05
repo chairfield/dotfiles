@@ -641,6 +641,25 @@ Use it as follows:
   ;; Here I override the default of 3 for all files. This is particularly useful
   ;; in *book document classes.
   (setq org-export-headline-levels 5)
+
+  ;; Add in the titletoc package before hyperref to support local TOCs,
+  ;; per https://orgmode.org/manual/Table-of-Contents.html
+  ;; TODO Update this to simply insert titletoc directly before hyperref, rather than overwriting the list---overwriting risks breaking me on future Emacs updates
+  (setq org-latex-default-packages-alist
+    '(("AUTO" "inputenc"  t ("pdflatex"))
+      ("T1"   "fontenc"   t ("pdflatex"))
+      (""     "graphicx"  t)
+      (""     "grffile"   t)
+      (""     "longtable" nil)
+      (""     "wrapfig"   nil)
+      (""     "rotating"  nil)
+      ("normalem" "ulem"  t)
+      (""     "amsmath"   t)
+      (""     "textcomp"  t)
+      (""     "amssymb"   t)
+      (""     "capt-of"   nil)
+      (""     "titletoc"  nil)
+      (""     "hyperref"  nil)))
 #+END_SRC
 
 Reload org to fix a spacemacs bug related to =org-startup-indented=, introduced
