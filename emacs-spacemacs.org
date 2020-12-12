@@ -412,6 +412,15 @@ Imports Unicode characters like é and ¼, accessible via the =C-x 8= prefix key
   (require 'iso-transl)
 #+END_SRC
 
+Specify undo-redo (u / C-r) support in evil mode. This wasn't required before,
+and isn't required on Spacemacs' =develop= branch, but I don't want to switch.
+Undo tree is installed in Spacemacs by default.
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+  (global-undo-tree-mode)
+  (evil-set-undo-system 'undo-tree)
+#+END_SRC
+
 Automatically split window vertically (left/right) if the current window is more
 than 166 columns wide. This cutoff was chosen to ensure that there's padding if
 displaying 2 80-character buffers side-by-side. Otherwise, place the new buffer
