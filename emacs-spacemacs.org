@@ -404,6 +404,26 @@ Open the section.
 #+END_SRC
 
 ** General =user-config=
+*** Tangle and Sync =init.el= With =,-r=
+Make the function only work from within the emacs-spacemacs.org buffer so that
+mistaken key chord presses don't force me to wait for a full Spacemacs sync.
+=,-r= is close to =,-R= (refile, which I use very often).
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+  (defun chair/tangle-and-sync ()
+    "Merges two operations: tangling emacs-spacemacs.org and syncing Spacemacs."
+    (interactive)
+    (if (equal (buffer-name) "emacs-spacemacs.org")
+        (progn (message "Tangling current buffer...")
+               (org-babel-tangle)
+               (message "Syncing Spacemacs...")
+               (dotspacemacs/sync-configuration-layers))
+        (message "This function only works within the emacs-spacemacs.org buffer.")))
+
+  (with-eval-after-load 'org
+    (spacemacs/set-leader-keys-for-major-mode 'org-mode "r" 'chair/tangle-and-sync))
+#+END_SRC
+
 *** Enable Unicode Chars Via =C-x 8=
 Imports Unicode characters like é and ¼, accessible via the =C-x 8= prefix key.
 
