@@ -56,6 +56,9 @@ yabai -m config bottom_padding               5
 yabai -m config left_padding                 7
 yabai -m config right_padding                5
 yabai -m config window_gap                   5
+
+# application rules (source: https://github.com/koekeishiya/yabai/blob/master/doc/yabai.asciidoc#rule)
+yabai -m rule --add app="^Anki$" manage=off
 #+END_SRC
 ** .spacebarrc
 :PROPERTIES:
