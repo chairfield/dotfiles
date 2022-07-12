@@ -63,6 +63,8 @@ yabai -m config window_gap                   5
 
 # application rules (source: https://github.com/koekeishiya/yabai/blob/master/doc/yabai.asciidoc#rule)
 yabai -m rule --add app="^Anki$" manage=off
+yabai -m rule --add app="^LibreOffice$" manage=off # LibreOffice consistently hangs when Yabai attempts to manage/tile it
+yabai -m rule --add app="^Calculator$" manage=off
 #+END_SRC
 ** .spacebarrc
 :PROPERTIES:
