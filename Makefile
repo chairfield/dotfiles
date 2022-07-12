@@ -1,14 +1,16 @@
-CHEMACS_DIR?=~/.chemacs
 DOOM_DIR?=~/.doom-emacs
-SPACEMACS_DIR?=~/.spacemacs
+SPACEMACS_DEV_DIR?=~/.spacemacs-dev
+SPACEMACS_MAIN_DIR?=~/.spacemacs-main
 
 emacs-targets = \
 	chemacs \
 	chemacs-profiles \
 	doom \
 	emacs-doom-dotfiles \
-	spacemacs \
-	emacs-spacemacs-dotfiles \
+	spacemacs-dev \
+	emacs-spacemacs-dev-dotfiles \
+	spacemacs-main \
+	emacs-spacemacs-main-dotfiles \
 	emacs-vanilla-dotfiles \
 	emacs-yasnippet
 
@@ -16,11 +18,7 @@ all: $(emacs-targets) git vim yabai
 
 .PHONY: chemacs
 chemacs:
-	@if [ ! -d $(CHEMACS_DIR) ]; then \
-	  echo "$(CHEMACS_DIR) does not exist, cloning repo..."; \
-	  git clone https://github.com/plexus/chemacs.git $(CHEMACS_DIR); \
-	  cd ~; .chemacs/install.sh; \
-	fi
+  @git clone https://github.com/plexus/chemacs2.git ~/.emacs.d \
 
 chemacs-profiles: chemacs-profiles.org
 	bin/tangle chemacs-profiles.org
@@ -35,15 +33,25 @@ doom:
 emacs-doom-dotfiles: emacs-doom.org
 	bin/tangle emacs-doom.org
 
-.PHONY: spacemacs
-spacemacs:
-	@if [ ! -d $(SPACEMACS_DIR) ]; then \
-	  echo "$(SPACEMACS_DIR) does not exist, cloning repo..."; \
-	  git clone https://github.com/syl20bnr/spacemacs $(SPACEMACS_DIR); \
+.PHONY: spacemacs-dev
+spacemacs-dev:
+	@if [ ! -d $(SPACEMACS_DEV_DIR) ]; then \
+	  echo "$(SPACEMACS_DEV_DIR) does not exist, cloning repo..."; \
+	  git clone -b develop https://github.com/syl20bnr/spacemacs $(SPACEMACS_DEV_DIR); \
 	fi
 
-emacs-spacemacs-dotfiles: emacs-spacemacs.org
-	bin/tangle emacs-spacemacs.org
+emacs-spacemacs-dev-dotfiles: emacs-spacemacs-dev.org
+	bin/tangle emacs-spacemacs-dev.org
+
+.PHONY: spacemacs-main
+spacemacs-main:
+	@if [ ! -d $(SPACEMACS_MAIN_DIR) ]; then \
+	  echo "$(SPACEMACS_MAIN_DIR) does not exist, cloning repo..."; \
+	  git clone https://github.com/syl20bnr/spacemacs $(SPACEMACS_MAIN_DIR); \
+	fi
+
+emacs-spacemacs-main-dotfiles: emacs-spacemacs-main.org
+	bin/tangle emacs-spacemacs-main.org
 
 emacs-vanilla-dotfiles: emacs-vanilla.org
 	bin/tangle emacs-vanilla.org

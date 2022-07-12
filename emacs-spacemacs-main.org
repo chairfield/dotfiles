@@ -11,23 +11,23 @@ modes I use regularly, especially Org mode.
 
 * Install Script
 Spacemacs comes prepared with its default layers, but it expects them in
-=~/.config/spacemacs/layers=, so symlink the layers directory in addition to
-configuring the =.el= files.
+=~/.config/spacemacs-main/layers=, so symlink the layers directory in addition
+to configuring the =.el= files.
 
-Though Spacemacs warns about not finding the =~/.config/spacemacs/layers=
-directory, do not attempt to symlink =~/.spacemacs/layers= there. That results
-in a duplication warning for every package.
+Though Spacemacs warns about not finding the =~/.config/spacemacs-main/layers=
+directory, do not attempt to symlink =~/.spacemacs-main/layers= there. That
+results in a duplication warning for every package.
 
-#+BEGIN_SRC sh :tangle sh/install-emacs-spacemacs.sh
-mkdir -p ~/.config/spacemacs
-ln -svf $PWD/out/emacs-spacemacs-init ~/.config/spacemacs/init.el
-if [ ! -f ~/.config/spacemacs/custom.el ]; then
-  cp $PWD/out/emacs-spacemacs-custom ~/.config/spacemacs/custom.el
+#+BEGIN_SRC sh :tangle sh/install-emacs-spacemacs-main.sh
+mkdir -p ~/.config/spacemacs-main
+ln -svf $PWD/out/emacs-spacemacs-main-init ~/.config/spacemacs-main/init.el
+if [ ! -f ~/.config/spacemacs-main/custom.el ]; then
+  cp $PWD/out/emacs-spacemacs-main-custom ~/.config/spacemacs-main/custom.el
 fi
 #+END_SRC
 
 * =init.el= File
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
 ;; -*- mode: emacs-lisp -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
@@ -42,7 +42,7 @@ You should not put any user code in this function besides modifying the variable
 values."
 #+END_QUOTE
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
 (defun dotspacemacs/layers ()
   (setq-default
    ;; Base distribution to use. This is a layer contained in the directory
@@ -124,7 +124,7 @@ You should not put any user code in there besides modifying the variable
 values."
 #+END_QUOTE
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
 (defun dotspacemacs/init ()
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
@@ -368,7 +368,7 @@ Spacemacs, so this setting prevents the feature from cluttering my Spacemacs
 It also seems possible that one could disable the feature altogether (see [[https://www.reddit.com/r/emacs/comments/4x655n/packageselectedpackages_always_appear_after/][this
 thread]]), though I see benefit in allowing temporary customizations.
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
 (defun dotspacemacs/user-init ()
   (setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
   (load custom-file))
@@ -379,7 +379,7 @@ exist. I don't symlink because I want customizations to persist across =make=
 invocations. Ideally, I'll move any customizations worth keeping into the
 [[#user-config][user-config]] section.
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-custom
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-custom
 (custom-set-variables)
 (custom-set-faces)
 #+END_SRC
@@ -399,7 +399,7 @@ you should place your code here."
 
 Open the section.
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
 (defun dotspacemacs/user-config ()
 #+END_SRC
 
@@ -409,7 +409,7 @@ Make the function only work from within the emacs-spacemacs.org buffer so that
 mistaken key chord presses don't force me to wait for a full Spacemacs sync.
 =,-r= is close to =,-R= (refile, which I use very often).
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (defun chair/tangle-and-sync ()
     "Merges two operations: tangling emacs-spacemacs.org and syncing Spacemacs."
     (interactive)
@@ -427,7 +427,7 @@ mistaken key chord presses don't force me to wait for a full Spacemacs sync.
 *** Enable Unicode Chars Via =C-x 8=
 Imports Unicode characters like é and ¼, accessible via the =C-x 8= prefix key.
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (require 'iso-transl)
 #+END_SRC
 
@@ -436,7 +436,7 @@ Specify undo-redo (u / C-r) support in evil mode. This wasn't required before,
 and isn't required on Spacemacs' =develop= branch, but I don't want to switch.
 Undo tree is installed in Spacemacs by default.
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (global-undo-tree-mode)
   (evil-set-undo-system 'undo-tree)
 #+END_SRC
@@ -454,7 +454,7 @@ horizontally over vertically, so a process like this wouldn't be possible:
 1. If the current window is more than 160 characters, split vertically.
 2. Else split the current window horizontally.
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (defun display-new-buffer (buffer force-other-window)
     "If BUFFER is visible, select it.
 
@@ -494,7 +494,7 @@ Use it as follows:
 3. If there are multiple results, use avy-style jumping to select the desired
    match; otherwise, the cursor will automatically move to the only match
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   ;; Be careful - some key in a layer I don't have installed yet may use this
   ;; sequence.
   (spacemacs/set-leader-keys "jt" 'avy-goto-char-timer)
@@ -509,7 +509,7 @@ Use it as follows:
 Load the [[https://github.com/joaotavora/yasnippet][YASnippet]] template system. My implementation is described in
 [[./emacs-yasnippet.org]].
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (require 'yasnippet)
   (yas-global-mode 1)
   (setq yas-snippet-dirs '("~/.emacs-snippets"))
@@ -517,7 +517,7 @@ Load the [[https://github.com/joaotavora/yasnippet][YASnippet]] template system.
 
 ** Org-Specific =user-config=
 *** Miscellaneous Settings
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   ;; Enables `org-indent-mode` for all files, displaying files in a virtual buffer
   ;; with 2-space indents per heading and section text aligned with its heading
   ;; title. Doing this solves an annoying behavior with default Spacemacs
@@ -530,26 +530,26 @@ Load the [[https://github.com/joaotavora/yasnippet][YASnippet]] template system.
 
 Apply a nuanced invisible edit protection approach. See its docstring for more.
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (setq-default org-catch-invisible-edits 'smart)
 #+END_SRC
 
 Disable tab emulation so that <tab> will /always/ cycle the current subtree
 visibility, instead of only doing so when the cursor is on the headline.
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (setq org-cycle-emulate-tab nil)
 #+END_SRC
 
 Save the target archive buffer after archiving a subtree. Requires org-mode
 version 9.4+.
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (setq org-archive-subtree-save-file-p t)
 #+END_SRC
 
 *** Agenda
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (setq org-agenda-files
         '("~/Org/gtd/projects.org"
           "~/Org/gtd/tickler.org"))
@@ -573,7 +573,7 @@ I considered the popular =org-journal= package, but found that =org-capture= is
 powerful enough and I'd rather err on the side of too few packages than too
 many. Credit for the core of my journal template goes to [[https://sachachua.com/blog/2014/11/using-org-mode-keep-process-journal/][Sasha Chua]].
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (setq org-capture-templates
         '(("t" "TODO [inbox]" entry
            (file "~/Org/gtd/inbox.org")
@@ -599,7 +599,7 @@ sub-projects with a =[/]= in parent headers---I'm experimenting with maintaining
 it in order to allow efficient filtering of currently-active projects via sparse
 trees and the agenda view.
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (setq org-todo-keywords
         '((sequence
            "TODO(t)" "NEXT(n)" "PROJ(p)" "WAIT(w)"
@@ -611,7 +611,7 @@ use RGB triplets for maximum flexibility. There also exist the pre-defined faces
 =org-todo=, =org-warning=, =org-done=, and a few others. Disable =hl-todo-mode=,
 as it overwrites some of my =org-todo-keyword-faces= settings.
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (add-hook 'org-mode-hook (lambda () (hl-todo-mode -1)))
   (setq org-todo-keyword-faces
         '(("TODO" . "#cc9393")
@@ -622,7 +622,7 @@ as it overwrites some of my =org-todo-keyword-faces= settings.
 #+END_SRC
 
 *** Refile
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (setq org-refile-targets
         '(("~/Org/gtd/agendas.org" :level . 1)
           ("~/Org/gtd/backburner.org" :level . 0)
@@ -644,7 +644,7 @@ as it overwrites some of my =org-todo-keyword-faces= settings.
 #+END_SRC
 
 *** =org-pomodoro= Package Config
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   ;; Simplify the format of the mode line string during a pomodoro session.
   (setq org-pomodoro-format "%s")
   ;; Allows me to extend past the 25-minute pomodoro time limit.
@@ -658,7 +658,7 @@ as it overwrites some of my =org-todo-keyword-faces= settings.
 #+END_SRC
 
 *** =org-download= Package Config
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (use-package org-download
     :after org
     :config
@@ -670,7 +670,7 @@ as it overwrites some of my =org-todo-keyword-faces= settings.
 *** Export Settings, Including KOMA Classes
 Settings for org-mode's export, specifically LaTeX export.
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   ;; The last level which is still exported as a headline.
   ;;
   ;; Inferior levels will usually produce itemize or enumerate lists when
@@ -710,7 +710,7 @@ section headers without making them org headlines is the =\minisec{...}=
 command. It's specific to KOMA and is used for, in =koma-book= at least,
 5th-level org-headlines. See section 3.6 of the [[http://www.ctex.org/documents/packages/nonstd/koma-script.pdf][KOMA Script spec]] for more.
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (add-to-list 'org-latex-classes
                '("koma-article"
                  "\\documentclass[letterpaper]{scrartcl}"
@@ -732,7 +732,7 @@ command. It's specific to KOMA and is used for, in =koma-book= at least,
 #+END_SRC
 
 *** Spacemacs Bugfix in =org-set-tags=
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   ;; Fix bug in spacemacs master branch with org-set-tags.
   ;; Source: https://emacs.stackexchange.com/questions/48906/spacemacs-error-wrong-type-argument-commandp-org-set-tags-when-setting-tag
   (with-eval-after-load 'org
@@ -746,13 +746,13 @@ when upgrading Spacemacs packages, per [[https://emacs.stackexchange.com/questio
 
 I find it unfortunate that so many Spacemacs users recommend such a hack.
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (org-reload)
 #+END_SRC
 ** =user-init= Section End
 
 Close the section.
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-init
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   )
 #+END_SRC

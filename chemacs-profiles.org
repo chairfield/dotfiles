@@ -1,11 +1,11 @@
-#+TITLE: Chemacs Emacs switcher config
+#+TITLE: Chemacs2 Emacs profile switcher config
 #+STARTUP: showall
 
 * Introduction
 :PROPERTIES:
 :CUSTOM_ID: introduction
 :END:
-[[https://github.com/plexus/chemacs][Chemacs]] enables easy Emacs profile switching. "Think of it as a bootloader for
+[[https://github.com/plexus/chemacs2][Chemacs2]] enables easy Emacs profile switching. "Think of it as a bootloader for
 Emacs."
 
 #+BEGIN_SRC sh :tangle sh/install-chemacs-profiles.sh
@@ -13,9 +13,11 @@ ln -svf $PWD/out/chemacs-profiles ~/.emacs-profiles.el
 #+END_SRC
 
 #+BEGIN_SRC sh :tangle out/chemacs-profiles
-(("vanilla" . ((user-emacs-directory . "~/.config/emacs-vanilla")))
- ("default" . ((user-emacs-directory . "~/.spacemacs")
-               (env . (("SPACEMACSDIR" . "~/.config/spacemacs")))))
+(("default" . ((user-emacs-directory . "~/.config/emacs-vanilla")))
+ ("spacemacs-main" . ((user-emacs-directory . "~/.spacemacs-main")
+                      (env . (("SPACEMACSDIR" . "~/.config/spacemacs-main")))))
+ ("spacemacs-dev" . ((user-emacs-directory . "~/.spacemacs-dev")
+                     (env . (("SPACEMACSDIR" . "~/.config/spacemacs-dev")))))
  ("doom" . ((user-emacs-directory . "~/.doom-emacs")
             (env . (("DOOMDIR" . "~/.config/doom"))))))
 #+END_SRC
