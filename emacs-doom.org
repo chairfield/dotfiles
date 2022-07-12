@@ -5,12 +5,7 @@
 :PROPERTIES:
 :CUSTOM_ID: introduction
 :END:
-[[https://github.com/hlissner/doom-emacs][Doom]] is a configuration framework for Emacs, with a decidedly different feel to
-Spacemacs. I tried it first, thinking I'd like its simplicity as an Emacs
-newbie. I was wrong; after running into a configuration it had made to Org mode,
-not knowing where to begin an attempt to try to disable it, I switched to
-Spacemacs. That said, I've noticed that Spacemacs has its downsides, and I hope
-to experiment with Doom more in the future.
+[[https://github.com/hlissner/doom-emacs][Doom]] is a configuration framework for Emacs, with a cleaner feel than Spacemacs.
 
 Doom's docs are improving. [[https://github.com/hlissner/doom-emacs/tree/develop/modules/lang/org][Here]] are its Org mode docs, including a note on how
 to revert the change it made to TAB cycling. Doom groups configuration settings
@@ -21,11 +16,18 @@ mkdir -p ~/.config/doom
 ln -svf $PWD/out/emacs-doom-config ~/.config/doom/config.el
 ln -svf $PWD/out/emacs-doom-init ~/.config/doom/init.el
 ln -svf $PWD/out/emacs-doom-packages ~/.config/doom/packages.el
-doom install
-doom sync
-doom doctor
+doom --doomdir ~/.config/doom install
+doom --doomdir ~/.config/doom sync
+doom --doomdir ~/.config/doom doctor
 #+END_SRC
 
+** TODO Set DOOMDIR env var via this dotfiles repo
+=.zshrc= is still managed by https://github.com/chairfield/dotphiles
+
+Once =.zshrc= is generated from this repo, I can tangle the =export
+DOOMDIR=~/.config/doom= line from here directly to =.zshrc=, followed by
+removing the explicit =--doomdir ~/.config/doom= argument on each =doom=
+invocation above.
 ** init.el
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-init
 ;;; init.el -*- lexical-binding: t; -*-
@@ -208,6 +210,7 @@ doom doctor
        ;;literate
        (default +bindings +smartparens))
 #+END_SRC
+
 ** config.el
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-config
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
