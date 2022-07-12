@@ -1,0 +1,16 @@
+* Application Support
+Create one MacOS App per chemacs profile.
+
+** Rationale
+This offers two key benefits:
+- Application launcher (e.g., Alfred) support
+- Concurrent Application instances for running multiple Emacs configurations side-by-side
+
+** Instructions
+Using Platypus (=brew install --cask platypus=), configure each App with the following settings:
+- Interface :: None
+- Run in background :: true
+- Remain running after exectution :: false
+- Create symlink to script and bundled files :: true
+
+Save each App in the Application folder.
