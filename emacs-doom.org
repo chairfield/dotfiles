@@ -16,6 +16,7 @@ mkdir -p ~/.config/doom
 ln -svf $PWD/out/emacs-doom-config ~/.config/doom/config.el
 ln -svf $PWD/out/emacs-doom-init ~/.config/doom/init.el
 ln -svf $PWD/out/emacs-doom-packages ~/.config/doom/packages.el
+ln -svf $PWD/snippets ~/.config/doom
 doom --doomdir ~/.config/doom install
 doom --doomdir ~/.config/doom sync
 doom --doomdir ~/.config/doom doctor
