@@ -1,0 +1,8 @@
+* Snippets
+My [[https://github.com/joaotavora/yasnippet][YASnippet]] repository, for sharing one set of snippets between my Emacs configurations.
+* Troubleshooting
+** Snippet expansion inserts a trailing newline
+Most likely, there's a trailing EOF in the snippet file. The following script will safely remove one only if it exists:
+#+BEGIN_SRC
+perl -pi -e 'chomp if eof' file
+#+END_SRC
