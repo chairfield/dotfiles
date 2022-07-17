@@ -306,6 +306,41 @@ invocation above.
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 #+END_SRC
+
+*** Fix Kinesis external keyboard on MacOS by disabling character composition on right option key
+*Intended behavior:* Win key on Kinesis freestyle serves as Emacs meta key
+
+*Actual behavior:* On the Kinesis only, pressing Win-<key> would insert special characters.
+
+*Background*:
+
+In MacOS settings for external Windows keyboard, I swap the Command and Option
+modifier keys; this makes Alt on Windows keyboards act as Command, which is
+handy as they're in the same keyboard location.
+
+The Kinesis Freestyle only has one Win key, which is on the left-hand side.
+However, I discovered through the [[https://manytricks.com/keycodes/][Key Codes]] app that its Win key was being
+interpreted as a right-sided Option key. Example:
+#+BEGIN_QUOTE
+NX_ALTERNATEMASK / kCGEventFlagMaskAlternate / NSAlternateKeyMask
+	= 524288 / 0x80000
+NX_DEVICERALTKEYMASK
+	= 64 / 0x40
+#+END_QUOTE
+
+Doom Emacs intentionally treats the right option modifier differently than the
+left one ([[https://github.com/doomemacs/doomemacs/issues/4178#issuecomment-718394618][issues/4178]]) in order to retain the ability to use special character
+composition. I never use this MacOS-only feature, so the following code
+configures the right option key to act as meta---just as the left one already
+does:
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-config
+(cond
+ (IS-MAC
+  ;; mac-* variables are used by the special emacs-mac build of Emacs by
+  ;; Yamamoto Mitsuharu, while other builds use ns-*.
+  (setq mac-right-option-modifier 'meta
+        ns-right-option-modifier  'meta)))
+#+END_SRC
 ** packages.el
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-packages
 ;; -*- no-byte-compile: t; -*-
