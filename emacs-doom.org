@@ -54,7 +54,7 @@ invocation above.
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       (company +auto)   ; the ultimate code completion backend
+       company           ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ivy               ; a search engine for love and life
@@ -347,6 +347,35 @@ does:
   ;; Yamamoto Mitsuharu, while other builds use ns-*.
   (setq mac-right-option-modifier 'meta
         ns-right-option-modifier  'meta)))
+#+END_SRC
+*** =company-mode=
+**** Disable auto-completion
+Disable auto-completion to avoid =company-mode= interfering with =yasnippet=
+completion. There may be a better way to accomplish this built into Doom and/or
+=company-mode= itself.
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-config
+(after! company (+company/toggle-auto-completion))
+#+END_SRC
+**** Trigger manual completion with =C-;=
+[[https://github.com/doomemacs/doomemacs/blob/master/modules/config/default/%2Bevil-bindings.el][+evil-bindings.el]] contains the following line when the =company= module is
+active, which doesn't seem to work:
+#+BEGIN_SRC emacs-lisp
+      :i "C-SPC"  (cmds! (not (minibufferp)) #'company-complete-common)
+#+END_SRC
+
+Regardless, =C-SPC= interferes with my global application launcher shortcut.
+
+My solution is to bind =C-;=, the same keybind that [[https://github.com/doomemacs/doomemacs/blob/1f4b9b73fc273e0736bdbc9f044995be65f50ce1/modules/config/default/%2Bemacs-bindings.el][+emacs-bindings.el]] uses.
+Before committing to this solution, I verified the following:
+- That =C-;= was unbound using the =describe-key= command (bound to =C-h k KEY=)
+- That =+company/complete= was unbound using the =describe-function= command
+  (bound to =C-h f FUNCTION=)
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-config
+(after! company
+        (map! (:when (featurep! :completion company)
+                     "C-;" #'+company/complete)))
 #+END_SRC
 ** packages.el
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-packages
