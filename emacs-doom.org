@@ -377,6 +377,13 @@ Before committing to this solution, I verified the following:
         (map! (:when (featurep! :completion company)
                      "C-;" #'+company/complete)))
 #+END_SRC
+*** =go-mode=
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-config
+(after! go-mode
+        (map! :map go-mode-map
+              :localleader
+              "f" #'gofmt))
+#+END_SRC
 ** packages.el
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-packages
 ;; -*- no-byte-compile: t; -*-
