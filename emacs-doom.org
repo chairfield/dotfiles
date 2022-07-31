@@ -120,7 +120,7 @@ invocation above.
        :tools
        ;;ansible
        ;;biblio            ; Writes a PhD for you (citation needed)
-       ;;debugger          ; FIXME stepping through code, to help you add bugs
+       (debugger +lsp)   ; FIXME stepping through code, to help you add bugs
        ;;direnv
        ;;docker
        ;;editorconfig      ; let someone else argue about tabs vs spaces
@@ -383,6 +383,22 @@ Before committing to this solution, I verified the following:
         (map! :map go-mode-map
               :localleader
               "f" #'gofmt))
+#+END_SRC
+*** =dap-hydra= (provided by emacs-lsp/dap-mode)
+Override Doom's default "Start debugger" function (+debugger/start) because =dap-hydra=
+is so easy to use. Once in the hydra, =dl= starts the debugger with its last configuration,
+=bb= toggles breakpoints, etc.
+
+When DAP is running, Doom also adds =dap-hydra= to =SPC m d=. That's fine, but I prefer
+the hydra-first workflow as it beats the alternatives:
+- Set initial breakpoint by mouse-clicking the left gutter or =M-x dap-breakpoint-add=
+- Start the debugger with =M-x +debugger/start= or =M-x dep-debug=
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-config
+(after! evil
+        (map! :leader
+              (:prefix-map ("o" . "open")
+                           :desc "Open dap-hydra" "d" #'dap-hydra)))
 #+END_SRC
 ** packages.el
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-packages
