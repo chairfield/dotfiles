@@ -34,6 +34,14 @@ Load MELPA package list, a very expensive step.
 (package-refresh-contents)
 #+END_SRC
 
+*** (MacOS) dired to use GNU ls
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-vanilla-init
+(when (string= system-type "darwin")
+  (setq dired-use-ls-dired t
+        insert-directory-program "/usr/local/bin/gls"))
+#+END_SRC
+
+*** evil
 Install and enable the [[https://www.emacswiki.org/emacs/Evil][Evil]] vi layer.
 
 =custom-set-variables= and =custom-set-faces= are Emacs- rather than
