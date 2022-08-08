@@ -21,5 +21,6 @@ ln -svf $PWD/out/chemacs-profiles ~/.emacs-profiles.el
                       (env . (("SPACEMACSDIR" . "~/.config/spacemacs-main")))))
  ("spacemacs-dev" . ((user-emacs-directory . "~/.spacemacs-dev")
                      (env . (("SPACEMACSDIR" . "~/.config/spacemacs-dev")))))
- ("vanilla" . ((user-emacs-directory . "~/.config/emacs-vanilla"))))
+ ("vanilla" . ((user-emacs-directory . "~/.config/emacs-vanilla")
+               (straight-p . t))))
 #+END_SRC

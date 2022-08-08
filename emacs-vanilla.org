@@ -5,33 +5,32 @@
 :PROPERTIES:
 :CUSTOM_ID: introduction
 :END:
-Mostly unused, I keep a custom, mostly-vanilla Emacs configuration. It helps
-give me a better sense of what [[https://www.spacemacs.org/][Spacemacs]] and [[https://github.com/hlissner/doom-emacs][Doom Emacs]] offer.
-
-This configuration is both slow to load and produces errors the first time it's
-run, but serves its purposes regardless.
+My Emacs sandbox, for experimenting with what [[https://www.spacemacs.org/][Spacemacs]] and [[https://github.com/hlissner/doom-emacs][Doom Emacs]] have to offer.
 
 #+BEGIN_SRC sh :tangle sh/install-emacs-vanilla.sh
 mkdir -p ~/.config/emacs-vanilla
 ln -svf $PWD/out/emacs-vanilla-init ~/.config/emacs-vanilla/init.el
+ln -svf $PWD/out/emacs-vanilla-early-init ~/.config/emacs-vanilla/early-init.el
 #+END_SRC
 
 ** init.el
 :PROPERTIES:
 :CUSTOM_ID: init-el
 :END:
-Setup the [[https://melpa.org/#/][MELPA]] package archive.
+*** straight.el
+[[https://github.com/radian-software/straight.el][straight.el]]: next-generation, purely functional package manager for the Emacs hacker.
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-vanilla-init
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(package-initialize)
-#+END_SRC
+Configured as follows:
+- Uses straight.el's =master= branch rather than =develop=
+- Package modification checks are performed at slight cost to startup, in order to be perfectly reliable
+- Clones over HTTPS
+- Saves straight.el's build files and package repos in =user-emacs-directory= (=~/.config/emacs-vanilla=)
+- Bootstrapped via chemacs2 profile with the =straight-p= variable ([[https://github.com/plexus/chemacs2/issues/24][chemacs2#24]])
 
-Load MELPA package list, a very expensive step.
+Per straight.el, users of Emacs versions >= 27 will want to add:
 
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-vanilla-init
-(package-refresh-contents)
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-vanilla-early-init
+(setq package-enable-at-startup nil)
 #+END_SRC
 
 *** (MacOS) dired to use GNU ls
@@ -44,25 +43,8 @@ Load MELPA package list, a very expensive step.
 *** evil
 Install and enable the [[https://www.emacswiki.org/emacs/Evil][Evil]] vi layer.
 
-=custom-set-variables= and =custom-set-faces= are Emacs- rather than
-Evil-specific and will need to be factored out in the future. According to the
-[[https://github.com/emacs-evil/evil][Evil documentation]], including them doesn't appear necessary.
-
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-vanilla-init
-(unless (package-installed-p 'evil)
-  (package-install 'evil))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (evil))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(straight-use-package 'evil)
 (require 'evil)
 (evil-mode 1)
 #+END_SRC
