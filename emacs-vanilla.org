@@ -27,6 +27,9 @@ Configured as follows:
 - Saves straight.el's build files and package repos in =user-emacs-directory= (=~/.config/emacs-vanilla=)
 - Bootstrapped via chemacs2 profile with the =straight-p= variable ([[https://github.com/plexus/chemacs2/issues/24][chemacs2#24]])
 
+[[https://github.com/doomemacs/doomemacs/blob/0f43c3eed5532e63c3b475f5385ded40278b12fe/docs/faq.org#why-does-doom-use-straightel-and-not-packageel][Doom's FAQ]] includes a summary of the advantages of straight.el, and uses it exclusively
+(Spacemacs has opted not to, per [[https://github.com/syl20bnr/spacemacs/issues/9505][spacemacs#9505]]).
+
 Per straight.el, users of Emacs versions >= 27 will want to add:
 
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-vanilla-early-init

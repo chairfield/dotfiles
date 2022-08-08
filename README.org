@@ -10,11 +10,10 @@ I make this project public for educational purposes only.
 
 ** Acknowledgments
 
-I wish to thank the following authors for heavily inspiring the architecture of
-this repo:
-- Lee Hinman, over at [[https://writequit.org][writequit.org]] and his [[https://github.com/dakrone/eos][Emacs Operating System]] project, for
-  providing the core approach to generating my dotfiles via org-tangle
-- The [[http://doc.rix.si/cce/cce.html][Complete Computing Environment]] for inspiring both Lee and myself
+My thanks to the authors of the following projects for inspiration:
+- [[https://github.com/dakrone/eos][dakrone/eos]]
+- [[https://github.com/daviwil/emacs-from-scratch][daviwil/emacs-from-scratch]]
+- [[https://github.com/rfhayashi/emacs.d][rfhayashi/emacs.d]]
 
 ** Installation
 
