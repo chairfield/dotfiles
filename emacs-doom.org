@@ -11,24 +11,15 @@ Doom's docs are improving. [[https://github.com/hlissner/doom-emacs/tree/develop
 to revert the change it made to TAB cycling. Doom groups configuration settings
 on a per-module basis (e.g., [[https://github.com/hlissner/doom-emacs/blob/develop/modules/lang/org/config.el][org/config.el]]).
 
+* Configs
+** Installation Script: Symlink Config Files
 #+BEGIN_SRC sh :tangle sh/install-emacs-doom.sh
 mkdir -p ~/.config/doom
 ln -svf $PWD/out/emacs-doom-config ~/.config/doom/config.el
 ln -svf $PWD/out/emacs-doom-init ~/.config/doom/init.el
 ln -svf $PWD/out/emacs-doom-packages ~/.config/doom/packages.el
-ln -svf $PWD/snippets ~/.config/doom
-doom --doomdir ~/.config/doom install
-doom --doomdir ~/.config/doom sync
-doom --doomdir ~/.config/doom doctor
 #+END_SRC
 
-** TODO Set DOOMDIR env var via this dotfiles repo
-=.zshrc= is still managed by https://github.com/chairfield/dotphiles
-
-Once =.zshrc= is generated from this repo, I can tangle the =export
-DOOMDIR=~/.config/doom= line from here directly to =.zshrc=, followed by
-removing the explicit =--doomdir ~/.config/doom= argument on each =doom=
-invocation above.
 ** init.el
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-init
 ;;; init.el -*- lexical-binding: t; -*-
@@ -453,3 +444,69 @@ the hydra-first workflow as it beats the alternatives:
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 #+END_SRC
+
+** =yasnippet= (multi-file)
+*** Design
+My goal is to share both a snippet and file-template =yasnippet= collection, stored in my dotfile repo,
+between all Emacs configs. File templates, especially automatic ones, are handy for multi-faceted
+structures that recur frequently (project planning, unit tests, etc.). Having both under my
+control makes updating them easiest, and avoids surprises.
+
+Doom has its own code for automatically applying file templates ([[https://docs.doomemacs.org/latest/modules/editor/file-templates/][modules/editor/file-templates]]).
+In non-Doom configs, I might settle for manual invocation;
+most default file templates are named =__= by convention.
+
+Doom's default =yasnippet= configuration is for =yas-snippet-dirs= to be set to:
+=(+snippets-dir doom-snippets-dir +file-templates-dir)=
+
+The plan for each is as follows:
+- =+snippets-dir= :: Use as configured; Doom defaults this variable to $DOOMDIR/snippets (=~/.config/doom/snippets=).
+- =doom-snippets-dir= :: Disable Doom's built-in snippets entirely (see: packages.el).
+- =+file-templates-dir= :: Set this to =~/.config/doom/file-templates= (see: config.el) and symlink.
+
+*** Installation Script: Link Snippet Dirs
+Symlink the following into =doom-user-dir=:
+- =~/.config/doom/snippets=
+- =~/.config/doom/file-templates=
+
+#+BEGIN_SRC sh :tangle sh/install-emacs-doom.sh
+ln -svf $PWD/snippets ~/.config/doom
+ln -svf $PWD/file-templates ~/.config/doom
+#+END_SRC
+
+*** config.el
+Note that this is one of the exceptions to the rule of wrapping config changes in an =after!= block,
+specifically "Setting doom variables (which start with 'doom-' or '+')".
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-config
+(when (featurep! :editor file-templates)
+  (setq +file-templates-dir (expand-file-name "file-templates/" doom-user-dir)))
+#+END_SRC
+
+*** packages.el
+[[https://github.com/doomemacs/doomemacs/blob/master/modules/editor/snippets/README.org#disabling-the-built-in-snippets][Disables Doom's built-in snippets]]. This removes the middle =doom-snippets-dir= entry
+from =yas-snippet-dirs=, leaving it set to =(+snippets-dir +file-templates-dir)=.
+
+=doom-snippets-dir= was set to =~/.doom-emacs/.local/straight/build-28.1/doom-snippets/=.
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-packages
+(package! doom-snippets :ignore t)
+#+END_SRC
+
+** Installation Script: Install and Sync
+#+BEGIN_SRC sh :tangle sh/install-emacs-doom.sh
+doom --doomdir ~/.config/doom install
+doom --doomdir ~/.config/doom sync
+doom --doomdir ~/.config/doom doctor
+#+END_SRC
+
+* Task List
+** TODO Set DOOMDIR env var via this dotfiles repo
+=.zshrc= is still managed by https://github.com/chairfield/dotphiles
+
+Once =.zshrc= is generated from this repo, I can tangle the =export
+DOOMDIR=~/.config/doom= line from here directly to =.zshrc=, followed by
+removing the explicit =--doomdir ~/.config/doom= argument on each =doom=
+invocation above.
+
+** TODO Migrate narrow/widen keybinds from spacemacs
