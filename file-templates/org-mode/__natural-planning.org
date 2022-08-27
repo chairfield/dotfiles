@@ -1,0 +1,9 @@
+#+TITLE: Natural Planning Model
+#+DATE:  `(format-time-string "%Y-%m-%d")`
+
+* Define Purpose
+* Define Standards
+* Envision Success
+* Brainstorm
+* Organize
+* Act
