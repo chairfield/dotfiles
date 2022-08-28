@@ -47,3 +47,154 @@ Install and enable the [[https://www.emacswiki.org/emacs/Evil][Evil]] vi layer.
 (require 'evil)
 (evil-mode 1)
 #+END_SRC
+
+** =yasnippet= (multi-file)
+*** Installation Script: Link Snippet Dirs
+Symlink the following into =user-emacs-directory=:
+- =~/.config/emacs-vanilla/snippets=
+- =~/.config/emacs-vanilla/file-templates=
+
+#+BEGIN_SRC sh :tangle sh/install-emacs-vanilla.sh
+ln -svf $PWD/snippets ~/.config/emacs-vanilla
+ln -svf $PWD/file-templates ~/.config/emacs-vanilla
+#+END_SRC
+
+*** init.el
+Configure yasnippet with support for Doom's automatic file template expansion.
+Much of this code is copied from Doom's [[https://github.com/doomemacs/doomemacs/blob/master/modules/editor/file-templates/config.el][modules/editor/file-templates/config.el]].
+
+I could have used [[https://github.com/mineo/yatemplate]], but its filename requirements differ from Doom's.
+By using Doom's code, I can share file templates.
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-vanilla-init
+(straight-use-package 'yasnippet)
+
+(defvar +snippets-dir (expand-file-name "snippets/" user-emacs-directory))
+
+(defvar +file-templates-dir (expand-file-name "file-templates/" user-emacs-directory))
+
+(setq yas-snippet-dirs
+      '(+snippets-dir
+        +file-templates-dir
+        ))
+
+(yas-global-mode 1)
+
+(defvar +file-templates-alist
+  '(;; Org
+    ("/natural-planning\\.org$" :trigger "__natural-planning.org" :mode org-mode)
+    (org-journal-mode :ignore t)
+    (org-mode))
+  "An alist of file template rules. The CAR of each rule is either a major mode
+symbol or regexp string. The CDR is a plist.")
+
+(defvar +file-templates-default-trigger "__"
+  "The default yasnippet trigger key (a string) for file template rules that
+don't have a :trigger property in `+file-templates-alist'.")
+#+END_SRC
+
+Copied from Doom's [[https://github.com/doomemacs/doomemacs/blob/master/lisp/doom-ui.el][lisp/doom-ui.el]].
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-vanilla-init
+(defvar switch-buffer-hook nil
+  "A list of hooks run after changing the current buffer.")
+
+(defun run-switch-buffer-hooks-h (&optional _)
+  (let ((gc-cons-threshold most-positive-fixnum)
+        (inhibit-redisplay t))
+    (run-hooks 'switch-buffer-hook)))
+#+END_SRC
+
+Selectively copied from [[https://github.com/doomemacs/doomemacs/blob/master/modules/editor/file-templates/autoload.el][modules/editor/file-templates/autoload.el]].
+Removed much that I didn't want, such as README and license support.
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-vanilla-init
+(cl-defun +file-templates--expand (pred &key project mode trigger ignore _when)
+  "Auto insert a yasnippet snippet into current file and enter insert mode (if
+evil is loaded and enabled)."
+  (when (and pred (not ignore))
+    (when (if project nil t)
+      (unless mode
+        (setq mode
+              (if (and (symbolp pred) (not (booleanp pred)))
+                  pred
+                major-mode)))
+      (unless mode
+        (user-error "Couldn't determine mode for %s file template" pred))
+      (unless trigger
+        (setq trigger +file-templates-default-trigger))
+      (if (functionp trigger)
+          (funcall trigger)
+        (require 'yasnippet)
+        (unless yas-minor-mode
+          (yas-minor-mode-on))
+        (when (and yas-minor-mode
+                   (when-let
+                       (template (cl-find trigger (yas--all-templates (yas--get-snippet-tables mode))
+                                          :key #'yas--template-key :test #'equal))
+                     (yas-expand-snippet (yas--template-content template)))
+                   (and (featurep 'evil) evil-local-mode)
+                   (and yas--active-field-overlay
+                        (overlay-buffer yas--active-field-overlay)
+                        (overlay-get yas--active-field-overlay 'yas--field)))
+          (evil-initialize-state 'insert))))))
+
+(defun +file-templates/debug ()
+  "Tests the current buffer and outputs the file template rule most appropriate
+for it. This is used for testing."
+  (interactive)
+  (cl-destructuring-bind (pred &rest plist &key trigger mode &allow-other-keys)
+      (or (cl-find-if #'+file-template-p +file-templates-alist)
+          (user-error "Found no file template for this file"))
+    (if (or (functionp trigger)
+            (cl-find trigger
+                     (yas--all-templates
+                      (yas--get-snippet-tables
+                       mode))
+                     :key #'yas--template-key :test #'equal))
+        (message "Found %s" (cons pred plist))
+      (message "Found rule, but can't find associated snippet: %s" (cons pred plist)))))
+#+END_SRC
+
+Copied from Doom's [[https://github.com/doomemacs/doomemacs/blob/master/modules/editor/file-templates/config.el][modules/editor/file-templates/config.el]].
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-vanilla-init
+(defun +file-template-p (rule)
+  "Return t if RULE applies to the current buffer."
+  (let ((pred (car rule))
+        (plist (cdr rule)))
+    (and (or (and (symbolp pred)
+                  (eq major-mode pred))
+             (and (stringp pred)
+                  (stringp buffer-file-name)
+                  (string-match-p pred buffer-file-name)))
+         (or (not (plist-member plist :when))
+             (funcall (plist-get plist :when)
+                      buffer-file-name))
+         rule)))
+
+(defun +file-templates-check-h ()
+  "Check if the current buffer is a candidate for file template expansion. It
+must be non-read-only, empty, and there must be a rule in
+`+file-templates-alist' that applies to it."
+  (and buffer-file-name
+       (not buffer-read-only)
+       (bobp) (eobp)
+       (not (member (substring (buffer-name) 0 1) '("*" " ")))
+       (not (file-exists-p buffer-file-name))
+       (not (buffer-modified-p))
+       (null (buffer-base-buffer))
+       (when-let (rule (cl-find-if #'+file-template-p +file-templates-alist))
+         (apply #'+file-templates--expand rule))))
+
+(add-hook 'switch-buffer-hook #'+file-templates-check-h)
+#+END_SRC
+
+Adds our hooks into Emacs' provided hooks. Copied from Doom's [[https://github.com/doomemacs/doomemacs/blob/master/lisp/doom-ui.el][lisp/doom-ui.el]].
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-vanilla-init
+;; Initialize `switch-buffer-hook'
+(add-hook 'window-buffer-change-functions #'run-switch-buffer-hooks-h)
+;; `window-buffer-change-functions' doesn't trigger for files visited via the server.
+(add-hook 'server-visit-hook #'run-switch-buffer-hooks-h)
+#+END_SRC

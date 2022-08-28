@@ -448,13 +448,17 @@ the hydra-first workflow as it beats the alternatives:
 ** =yasnippet= (multi-file)
 *** Design
 My goal is to share both a snippet and file-template =yasnippet= collection, stored in my dotfile repo,
-between all Emacs configs. File templates, especially automatic ones, are handy for multi-faceted
+between multiple Emacs configs. File templates, especially automatic ones, are handy for multi-faceted
 structures that recur frequently (project planning, unit tests, etc.). Having both under my
 control makes updating them easiest, and avoids surprises.
 
-Doom has its own code for automatically applying file templates ([[https://docs.doomemacs.org/latest/modules/editor/file-templates/][modules/editor/file-templates]]).
-In non-Doom configs, I might settle for manual invocation;
-most default file templates are named =__= by convention.
+Doom has its own code for automatically applying file templates ([[https://docs.doomemacs.org/latest/modules/editor/file-templates/][modules/editor/file-templates]]). I've
+copied much of that code into my vanilla Emacs, so both it and Doom share automatic expansion of the same
+file templates.
+
+I've shared snippets and file templates with my Spacemacs main config, but opted to skip supporting
+automatic template expansion. Manual invocation is simple enough, as most default file templates are
+named =__= by convention.
 
 Doom's default =yasnippet= configuration is for =yas-snippet-dirs= to be set to:
 =(+snippets-dir doom-snippets-dir +file-templates-dir)=

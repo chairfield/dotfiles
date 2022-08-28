@@ -506,13 +506,22 @@ Use it as follows:
 #+END_SRC
 
 *** YASnippet Config
-Load the [[https://github.com/joaotavora/yasnippet][YASnippet]] template system. My implementation is described in
-[[./emacs-yasnippet.org]].
+Load the [[https://github.com/joaotavora/yasnippet][YASnippet]] template system. Load in shared snippets and file templates,
+the latter are without automatic expansion support.
 
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-spacemacs-main-init
   (require 'yasnippet)
+
+  (defvar +snippets-dir (expand-file-name "snippets/" dotspacemacs-directory))
+
+  (defvar +file-templates-dir (expand-file-name "file-templates/" dotspacemacs-directory))
+
+  (setq yas-snippet-dirs
+        '(+snippets-dir
+          +file-templates-dir
+          ))
+
   (yas-global-mode 1)
-  (setq yas-snippet-dirs '("~/.emacs-snippets"))
 #+END_SRC
 
 ** Org-Specific =user-config=
