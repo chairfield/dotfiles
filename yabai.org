@@ -1,7 +1,7 @@
 #+TITLE: Yabai, spacebar, and skhd dotfiles
 #+STARTUP: content
 
-* Introduction
+* Installation Script
 :PROPERTIES:
 :CUSTOM_ID: introduction
 :END:
@@ -18,6 +18,8 @@ else
   echo "Not linking yabai dotfiles since we're not on MacOS"
 fi
 #+END_SRC
+
+* Configs
 ** .yabairc
 :PROPERTIES:
 :CUSTOM_ID: yabairc
