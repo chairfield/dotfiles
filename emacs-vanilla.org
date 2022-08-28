@@ -1,22 +1,18 @@
 #+TITLE: Vanilla Emacs config
 #+STARTUP: showall
 
-* Introduction
-:PROPERTIES:
-:CUSTOM_ID: introduction
-:END:
-My Emacs sandbox, for experimenting with what [[https://www.spacemacs.org/][Spacemacs]] and [[https://github.com/hlissner/doom-emacs][Doom Emacs]] have to offer.
+* Purpose
+An experimental sandbox.
 
+* Installation Script
 #+BEGIN_SRC sh :tangle sh/install-emacs-vanilla.sh
 mkdir -p ~/.config/emacs-vanilla
 ln -svf $PWD/out/emacs-vanilla-init ~/.config/emacs-vanilla/init.el
 ln -svf $PWD/out/emacs-vanilla-early-init ~/.config/emacs-vanilla/early-init.el
 #+END_SRC
 
+* Configs
 ** init.el
-:PROPERTIES:
-:CUSTOM_ID: init-el
-:END:
 *** straight.el
 [[https://github.com/radian-software/straight.el][straight.el]]: next-generation, purely functional package manager for the Emacs hacker.
 
