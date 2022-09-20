@@ -1,5 +1,6 @@
 out/*
 !out/README
+!out/hammerspoon
 
 sh/*
 !sh/README

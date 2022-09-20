@@ -15,7 +15,7 @@ if [ "$(uname 2> /dev/null)" = "Darwin" ]; then
   chmod +x ~/.spacebarrc
   ln -sfv $PWD/out/skhdrc ~/.skhdrc
 else
-  echo "Not linking yabai dotfiles since we're not on MacOS"
+  echo "Skipping yabai installation"
 fi
 #+END_SRC
 
