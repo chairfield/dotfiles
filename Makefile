@@ -1,3 +1,4 @@
+CHEMACS_DIR?=~/.emacs.d
 DOOM_DIR?=~/.doom-emacs
 SPACEMACS_DEV_DIR?=~/.spacemacs-dev
 SPACEMACS_MAIN_DIR?=~/.spacemacs-main
@@ -17,7 +18,10 @@ all: $(emacs-targets) git hammerspoon vim yabai
 
 .PHONY: chemacs
 chemacs:
-	git clone https://github.com/plexus/chemacs2.git ~/.emacs.d
+	@if [ ! -d $(CHEMACS_DIR) ]; then \
+	  echo "$(CHEMACS_DIR) does not exist, cloning repo..."; \
+	  git clone https://github.com/plexus/chemacs2.git ~/.emacs.d; \
+	fi
 
 chemacs-profiles: chemacs-profiles.org
 	bin/tangle chemacs-profiles.org
