@@ -17,7 +17,7 @@ all: $(emacs-targets) git hammerspoon vim yabai
 
 .PHONY: chemacs
 chemacs:
-  @git clone https://github.com/plexus/chemacs2.git ~/.emacs.d \
+	git clone https://github.com/plexus/chemacs2.git ~/.emacs.d
 
 chemacs-profiles: chemacs-profiles.org
 	bin/tangle chemacs-profiles.org
