@@ -8,13 +8,6 @@ understand its implementation, begin by reviewing [[https://github.com/chairfiel
 
 I make this project public for educational purposes only.
 
-** Acknowledgments
-
-My thanks to the authors of the following projects for inspiration:
-- [[https://github.com/dakrone/eos][dakrone/eos]]
-- [[https://github.com/daviwil/emacs-from-scratch][daviwil/emacs-from-scratch]]
-- [[https://github.com/rfhayashi/emacs.d][rfhayashi/emacs.d]]
-
 ** Installation
 
 #+BEGIN_SRC shell
@@ -23,6 +16,21 @@ $ cd dotfiles
 $ make
 $ make install
 #+END_SRC
+
+*** Managing multiple git configurations side-by-side
+I use [[https://dev.to/fedekau/automatically-managing-personal-and-work-git-configurations-27ad][these instructions]] to setup unique SSH keys for accessing multiple GitHub accounts.
+
+Once configured, cloning this repository looks like this:
+#+BEGIN_SRC shell
+$ git clone git@github.com-personal:chairfield/dotfiles.git
+#+END_SRC
+
+** Acknowledgments
+
+My thanks to the authors of the following projects for inspiration:
+- [[https://github.com/dakrone/eos][dakrone/eos]]
+- [[https://github.com/daviwil/emacs-from-scratch][daviwil/emacs-from-scratch]]
+- [[https://github.com/rfhayashi/emacs.d][rfhayashi/emacs.d]]
 
 ** LICENSE
 
