@@ -9,6 +9,7 @@ if [ "$(uname 2> /dev/null)" = "Darwin" ]; then
   mkdir -p ~/.hammerspoon
   ln -svf $PWD/Spoons ~/.hammerspoon
   ln -svf $PWD/out/hammerspoon/init.lua ~/.hammerspoon
+  ln -svf $PWD/out/hammerspoon/keyboard.lua ~/.hammerspoon
 else
   echo "Skipping Hammerspoon installation"
 fi
@@ -18,6 +19,13 @@ fi
 Hammerspoon's API docs: https://www.hammerspoon.org/docs/index.html
 
 ** init.lua
+*** Required Modules
+Lua's =require= allows me to modularize my config.
+
+#+BEGIN_SRC lua :tangle out/hammerspoon/init.lua
+local keyboard = require('keyboard')
+#+END_SRC
+
 *** ReloadConfiguration Spoon
 Reload config on file edits with [[http://www.hammerspoon.org/Spoons/ReloadConfiguration.html][ReloadConfiguration]].
 By default, this Spoon also watches modules included via =require=.

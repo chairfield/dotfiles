@@ -14,7 +14,7 @@ emacs-targets = \
 	emacs-spacemacs-main-dotfiles \
 	emacs-vanilla-dotfiles
 
-all: $(emacs-targets) git hammerspoon vim yabai
+all: $(emacs-targets) git keyboard hammerspoon vim yabai
 
 .PHONY: chemacs
 chemacs:
@@ -62,14 +62,17 @@ emacs-vanilla-dotfiles: emacs-vanilla.org
 git: git.org
 	bin/tangle git.org
 
+keyboard: keyboard.org
+	bin/tangle keyboard.org
+
+hammerspoon: hammerspoon.org keyboard
+	bin/tangle hammerspoon.org
+
 vim: vim.org
 	bin/tangle vim.org
 
 yabai: yabai.org
 	bin/tangle yabai.org
-
-hammerspoon: hammerspoon.org
-	bin/tangle hammerspoon.org
 
 run: all
 	for f in sh/*.sh; do \

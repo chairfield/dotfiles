@@ -1,0 +1,191 @@
+#+TITLE: Keyboard config
+
+* Remap Caps Lock key to both Control and Escape
+Configure the Caps Lock key to act as Control when held or Escape when quickly
+pressed and released.
+
+On both *nix and MacOS, my approach is to first map the Caps Lock key to the
+Control modifier, and then to layer on code that converts a quick press/release
+into an Escape key event.
+
+** MacOS
+For each keyboard, map Caps Lock to Control via the GUI (System Preferences -> Keyboard -> Modifier Keys).
+
+Add the Control->Escape layer via [[https://www.hammerspoon.org/][Hammerspoon]]. The [[https://github.com/jasonrudolph/ControlEscape.spoon][ControlEscape]] Spoon needs no configuration.
+
+#+BEGIN_SRC lua :tangle out/hammerspoon/keyboard.lua
+hs.loadSpoon('ControlEscape'):start()
+#+END_SRC
+
+See [[file:./hammerspoon.org][hammerspoon.org]] for how I =require= =keyboard.lua= from =init.lua=.
+
+** Linux
+*** X Keyboard Extension (xkb)
+Persist the =caps:ctrl_modifier= and =terminate:ctrl_alt_bksp= =xkb= rules to
+the filesystem, so that they'll apply to any =us=/=pc= keyboard when an X Window
+System user session starts (a restart is required by default for changes to take
+effect).
+
+#+BEGIN_SRC sh :tangle sh/install-keyboard.sh
+localectl set-x11-keymap us pc '' caps:ctrl_modifier,terminate:ctrl_alt_bksp
+#+END_SRC
+
+The above writes the following, in my case, to =/etc/default/keyboard= (see
+=man keyboard= for a description of this file):
+#+BEGIN_SRC
+XKBLAYOUT=us
+XKBMODEL=pc
+XKBOPTIONS=caps:ctrl_modifier,terminate:ctrl_alt_bksp
+#+END_SRC
+
+=/etc/default/keyboard= is only meant to be modified through =localectl=, not
+manually.
+
+Usage of =localectl='s =set-x11-keymap= command:
+#+BEGIN_QUOTE
+set-x11-keymap LAYOUT [MODEL [VARIANT [OPTIONS]]]
+           Set the system default keyboard mapping for X11 and the virtual console.
+           This takes a keyboard mapping name (such as "de" or "us"), and possibly
+           a model, variant, and options, see kbd(4) for details.
+#+END_QUOTE
+
+I was able to validate my settings by running =setxkbmap -print -verbose 10=, which
+prints the current keymap. My =localectl= script above is the minimum required for
+the resulting keymap retain all its components.
+
+While layout is required per the man page, the optional model parameter also seemed
+to be. However, I was able to specify just the =pc= group, which =xkb= was able to
+infer a working geometry (=pc104=, in the case of my T450s) from.
+
+The =terminate:ctrl_alt_bksp= rule seems to be default on Mint, and I found it
+handy in verifying some changes quickly.
+
+*** xcape
+=xcape= allows a modifier key to be used as another key when it is pressed and released
+on its own.
+
+#+BEGIN_SRC sh :tangle out/90custom_xcape
+#!/bin/sh
+
+if [ -x /usr/bin/xcape ]; then
+  xcape -e 'Caps_Lock=Escape'
+else
+  message "/usr/bin/xcape not found"
+fi
+#+END_SRC
+
+Notes:
+- =xcape= forks a background process by default.
+- Debug with the =-d= flag, which runs it in the foreground.
+
+=xcape= appears to work at a level below =xkb= rules, given that it only works when
+I've set its input mapping to ="Caps_Lock" (keysym 0xffe5, key code 66)=. This
+also means that the above command only affects the Caps Lock key. To generate an
+Escape key event from a Control key, use =xcape -e 'Control_L=Escape'= or similar.
+
+**** TODO explain headline
+TODO explain
+
+#+BEGIN_SRC sh :tangle sh/install-keyboard.sh
+sudo ln -svf $PWD/out/90custom_xcape /etc/X11/Xsession.d/
+#+END_SRC
+**** TODO Tune xcape's timeout, if needed
+The default timeout is, I believe, 100ms. Pass a timeout in milliseconds with the =-t=
+parameter to set a different one.
+
+**** TODO Decide how to run xcape early in X startup
+- Probably link xcape output script into ~/.x11
+- xinit
+  - looks for either .xinitrc or .xserverrc
+  - last long-lived program (e.g., i3) should be only foreground, as X exits after it closes
+  - this ties xinit to a specific desktop environment, which I don't want yet
+- xsession
+  - .xsessionrc works, and it's called early on
+  - "Note that in the Debian system, what many people traditionally put in the .xinitrc file should go in .xsession  instead; this permits the same X environment to be presented whether startx, xdm, or xinit is used to start the X session."
+- Xsession.d
+  - I can also link it as part of my Xsession startup procedure
+  - Downside: would need to provide password on initial installation
+  - Upside: again, it's separate from xsessionrc, which are general and get crowded
+  - Upside: it's system-wide, which mirrors how I've configured =xkb=
+  - Upside: it's separate
+**** TODO Only run localectl and xcape on *nix
+
+*** Discussion: xkb vs. xmodmap
+=xmodmap= predates =xkb=, but could be used instead. For example, the following
+script, if passed to =xmodmap=, would modify the Caps Lock key to act as Escape:
+
+#+BEGIN_SRC sh
+remove Lock = Caps_Lock
+keysym Caps_Lock = Escape
+#+END_SRC
+
+The =xmodmap= program is used to update the keymap table in X. Client applications
+use the keymap table to convert event keycodes into keysyms.
+
+Many options exist for invoking =xmodmap=: =.xinitrc=, =.xsession=, =.zshrc=, etc.
+I found the idea of an =Xsession= startup script appealing, as it'd run =xmodmap=
+during the X Window System's session startup process (see =man xsession=). =Xsession=
+startup scripts reside in =/etc/X11/Xsession.d/= and can be precisely ordered, but
+root privileges are required to place it there.
+
+Primarily, I opted for =xkb= over =xmodmap= since it's newer, more powerful, and
+worked more consistently within X's startup sequence. My impression is that an
+=xkb=-based approach is likely to be more portable across various desktop
+environments.
+
+From the Arch wiki on =xmodmap=:
+#+BEGIN_QUOTE
+xmodmap is not directly related to XKB; it uses different (pre-XKB) ideas on how keycodes are processed within X. In particular, it lacks the notion of groups and types, so trying to set more than one keysym per key is not likely to work. In general, except for the simplest modifications of keymaps or pointer button mappings, xkbcomp(1) should be used instead.
+#+END_QUOTE
+
+*** Discussion: localectl vs. setxkbmap
+=setxkbmap= and =localectl= are both =xkb= commands; the former updates the
+current user session whereas the latter persists keymap settings to be read when
+an X session starts.
+
+Had I wished to use =setxkbmap=, I'd run the following (without the =-print=)
+early in the X startup process (e.g., =.xsession=):
+#+BEGIN_SRC sh
+setxkbmap -model pc -layout us -option terminate:ctrl_alt_bksp -option caps:escape -print
+#+END_SRC
+
+#+BEGIN_RESULTS
+xkb_keymap {
+	xkb_keycodes  { include "evdev+aliases(qwerty)"	};
+	xkb_types     { include "complete"	};
+	xkb_compat    { include "complete"	};
+	xkb_symbols   { include "pc+us+inet(evdev)+capslock(escape)+terminate(ctrl_alt_bksp)"	};
+	xkb_geometry  { include "pc(pc105)"	};
+};
+#+END_RESULTS
+
+Whereas choosing =xkb= over =xmodmap= was pragmatically superior, choosing
+=localectl= over =setxkbmap= is largely a matter of taste. Each worked as
+consistently and reliably as the other. However, in a multi-user environment,
+=setxkbmap= may be the only option.
+
+I ended up choosing =localectl= because:
+- It's the earliest point in the X startup procedure that I can specify keymap settings
+- I prefer the separation of my keymap configuration that results from =localectl='s use of =/etc/default/keyboard=, though =xcape= still needs to be run from an X script
+
+*** Notes: excerpts from /usr/share/X11/xkb/rules/evdev.lst
+When using =evdev= (the default), =evdev.lst= contains all available models, layouts, variants, and options. Below are some notable lines from this file, which I might want to explore more later:
+#+BEGIN_QUOTE
+! model
+  pc104           Generic 104-key PC
+  pc105           Generic 105-key PC
+
+! layout
+  us              English (US)
+
+! variant
+  mac             us: English (Macintosh)
+
+! option
+  ctrl:nocaps          Caps Lock as Ctrl
+  ctrl:swapcaps_hyper  Caps Lock as Ctrl, Ctrl as Hyper
+  caps:escape          Make Caps Lock an additional Esc
+  caps:escape_shifted_capslock Make Caps Lock an additional Esc, but Shift + Caps Lock is the regular Caps Lock
+  shift:both_capslock  Both Shift together enable Caps Lock
+  shift:both_capslock_cancel Both Shift together enable Caps Lock; one Shift key disables it
+#+END_QUOTE
