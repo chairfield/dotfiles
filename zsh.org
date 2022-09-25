@@ -1,0 +1,35 @@
+#+TITLE: Zsh config
+#+STARTUP: content
+
+* Installation Script
+#+BEGIN_SRC sh :tangle sh/install-zsh.sh
+#!/bin/zsh
+
+if [[ $(which zsh) != $SHELL ]]; then
+  echo 'Error: $SHELL ought to be '"$(which zsh), but is: $SHELL"
+  echo 'To set the default shell, run: chsh -s $(which zsh)'
+  echo 'Exiting now...'
+  exit
+fi
+
+if [[ ! -a ~/.zshenv ]]; then
+  echo 'Writing ~/.zshenv'
+  echo 'source ~/.zsh/zshenv' > ~/.zshenv
+fi
+
+ln -svf $PWD/out/zsh/zshenv ~/.zsh/zshenv
+#+END_SRC
+
+* Config
+** =zshenv=
+Unless the =NO_RCS= option is set, =.zshenv= runs for every zsh (login or not, interactive or non-interactive).
+
+Most everything can and should live in =.zshrc=. Those few settings I also want in non-interactive shells belong here. For example, when Emacs runs commands from inside it, such as =grep=, only =.zshenv= will be sourced ([[https://zsh.sourceforge.io/Guide/zshguide02.html][source]]).
+
+#+BEGIN_SRC sh :tangle out/zsh/zshenv
+export ZDOTDIR=${ZDOTDIR:-~/.zsh}
+#+END_SRC
+
+Note: =:-= sets the variable only if it is not set or empty.
+
+* Tasks
