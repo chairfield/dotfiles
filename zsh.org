@@ -19,6 +19,10 @@ fi
 
 mkdir -p ~/.zsh
 ln -svf $PWD/out/zsh/zshenv ~/.zsh/zshenv
+ln -svf $PWD/submodules/antigen ~/.zsh
+ln -svf $PWD/out/zsh/antigenrc ~/.zsh/antigenrc
+ln -svf $PWD/out/zsh/agkozakrc ~/.zsh/agkozakrc
+ln -svf $PWD/out/zsh/zshrc ~/.zsh/.zshrc
 #+END_SRC
 
 * Config
@@ -32,5 +36,69 @@ export ZDOTDIR=${ZDOTDIR:-~/.zsh}
 #+END_SRC
 
 Note: =:-= sets the variable only if it is not set or empty.
+
+** =antigenrc=
+#+BEGIN_SRC sh :tangle out/zsh/antigenrc
+################################################################
+# Remember to benchmark changes!
+# for i in $(seq 1 10); do /usr/bin/time $SHELL -i -c exit; done
+################################################################
+
+# Load oh-my-zsh library
+antigen use oh-my-zsh
+
+# Load bundles from the default repo (oh-my-zsh)
+antigen bundle git # Quick
+antigen bundle docker # Quick
+
+# Load bundles from external repos
+antigen bundle zsh-users/zsh-completions # Quick
+antigen bundle zsh-users/zsh-autosuggestions # Quick
+antigen bundle zsh-users/zsh-syntax-highlighting # 0.04 seconds
+antigen bundle agkozak/agkozak-zsh-prompt # My theme; Quick
+
+# Tell Antigen that you're done
+antigen apply
+#+END_SRC
+
+** =agkozakrc=
+#+BEGIN_SRC sh :tangle out/zsh/agkozakrc
+# Command on same line as prompt
+AGKOZAK_MULTILINE=0
+# Places git status on left side
+AGKOZAK_LEFT_PROMPT_ONLY=1
+# Show 3 directories, then trim
+AGKOZAK_PROMPT_DIRTRIM=3
+# Modifying the first 3 symbols: Diverged, Behind, Ahead
+# The other 6: New file(s), Deleted, Modified, Renamed, Untracked, Stashed changes
+AGKOZAK_CUSTOM_SYMBOLS=( '⇣⇡' '⇣' '⇡' '+' 'x' '!' '>' '?' '$' )
+# Display the time in the right
+#AGKOZAK_CUSTOM_RPROMPT='%*'
+# Prepend a lambda in front of every line, as a visual indicator
+# Use prettier 256 colors, if available
+if (( ${terminfo[colors]:-0} >= 256 )); then
+  AGKOZAK_COLORS_USER_HOST=108
+  AGKOZAK_COLORS_PATH=116
+  AGKOZAK_COLORS_BRANCH_STATUS=228
+  AGKOZAK_COLORS_EXIT_STATUS=174
+  AGKOZAK_COLORS_CMD_EXEC_TIME=245
+fi
+AGKOZAK_CUSTOM_PROMPT=$'\n%F{yellow}λ %(!.%S%B.%B%F{${AGKOZAK_COLORS_USER_HOST}})%n%1v%(!.%b%s.%f%b) '
+AGKOZAK_CUSTOM_PROMPT+='%B%F{${AGKOZAK_COLORS_PATH}}%2v%f%b'
+AGKOZAK_CUSTOM_PROMPT+='%(3V.%F{${AGKOZAK_COLORS_BRANCH_STATUS}}%3v%f.)'
+AGKOZAK_CUSTOM_PROMPT+='%(9V. %F{${AGKOZAK_COLORS_CMD_EXEC_TIME}}%b%9v%b%f.)'
+AGKOZAK_CUSTOM_PROMPT+=$' %(?..%B%F{${AGKOZAK_COLORS_EXIT_STATUS}}(%?%)%f%b )'
+# TODO: Handle superuser case
+AGKOZAK_CUSTOM_PROMPT+='%(4V.%F{88}❮%f.%F{88}❯%f) '
+#+END_SRC
+
+** =~/.zshrc=
+*** Antigen
+#+BEGIN_SRC sh :tangle out/zsh/zshrc
+# Load antigen source, my antigen config, and my chosen theme
+source $ZDOTDIR/antigen/bin/antigen.zsh
+antigen init $ZDOTDIR/antigenrc
+source $ZDOTDIR/agkozakrc
+#+END_SRC
 
 * Tasks
