@@ -11,7 +11,7 @@ I make this project public for educational purposes only.
 ** Installation
 
 #+BEGIN_SRC shell
-$ git clone https://github.com/chairfield/dotfiles
+$ git clone --recurse-submodules https://github.com/chairfield/dotfiles
 $ cd dotfiles
 $ make
 $ make install
