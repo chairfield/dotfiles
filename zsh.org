@@ -17,6 +17,7 @@ if [[ ! -a ~/.zshenv ]]; then
   echo 'source ~/.zsh/zshenv' > ~/.zshenv
 fi
 
+mkdir -p ~/.zsh
 ln -svf $PWD/out/zsh/zshenv ~/.zsh/zshenv
 #+END_SRC
 
