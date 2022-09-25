@@ -9,7 +9,9 @@ if [ "$(uname 2> /dev/null)" = "Darwin" ]; then
   mkdir -p ~/.hammerspoon
   ln -svf $PWD/Spoons ~/.hammerspoon
   ln -svf $PWD/out/hammerspoon/init.lua ~/.hammerspoon
+  ln -svf $PWD/out/hammerspoon/helpers.lua ~/.hammerspoon
   ln -svf $PWD/out/hammerspoon/keyboard.lua ~/.hammerspoon
+  ln -svf $PWD/out/hammerspoon/spotify.lua ~/.hammerspoon
 else
   echo "Skipping Hammerspoon installation"
 fi
@@ -23,6 +25,7 @@ Hammerspoon's API docs: https://www.hammerspoon.org/docs/index.html
 Lua's =require= allows me to modularize my config.
 
 #+BEGIN_SRC lua :tangle out/hammerspoon/init.lua
+local helpers  = require('helpers')
 local keyboard = require('keyboard')
 #+END_SRC
 
@@ -32,4 +35,49 @@ By default, this Spoon also watches modules included via =require=.
 
 #+BEGIN_SRC lua :tangle out/hammerspoon/init.lua
 hs.loadSpoon("ReloadConfiguration"):start()
+#+END_SRC
+
+*** Spotify Shortcuts
+#+BEGIN_SRC lua :tangle out/hammerspoon/init.lua
+if isdir("/Applications/Spotify.app") then
+  local keyboard = require('spotify')
+end
+#+END_SRC
+
+** helpers.lua
+Sourced from [[https://stackoverflow.com/a/40195356][Hisham H M]] on StackOverflow:
+
+#+BEGIN_SRC lua :tangle out/hammerspoon/helpers.lua
+function exists(file)
+   local ok, err, code = os.rename(file, file)
+   if not ok then
+      if code == 13 then
+         -- Permission denied, but it exists
+         return true
+      end
+   end
+   return ok, err
+end
+
+--- Check if a directory exists in this path
+function isdir(path)
+   -- "/" works on both Unix and Windows
+   return exists(path.."/")
+end
+#+END_SRC
+
+** spotify.lua
+#+BEGIN_SRC lua :tangle out/hammerspoon/spotify.lua
+hs.hotkey.bind({"cmd", "alt"}, "left", function()
+  hs.spotify.previous()
+end)
+hs.hotkey.bind({"cmd", "alt"}, "right", function()
+  hs.spotify.next()
+end)
+hs.hotkey.bind({"cmd", "alt"}, "up", function()
+  hs.spotify.playpause()
+end)
+hs.hotkey.bind({"cmd", "alt"}, "down", function()
+  hs.spotify.playpause()
+end)
 #+END_SRC
