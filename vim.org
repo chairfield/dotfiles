@@ -1,22 +1,23 @@
 #+TITLE: Vim config
 #+STARTUP: content
 
-* Introduction
-:PROPERTIES:
-:CUSTOM_ID: introduction
-:END:
-While Emacs is my preferred editor, I still sometimes use Vim. This config sets
-up a basic environment using the excellent, minimalist [[https://github.com/junegunn/vim-plug][vim-plug]].
+* Installation Script
+Setup a Vim environment with [[https://github.com/junegunn/vim-plug][vim-plug]].
+I prioritize speed and simplicity in my Vim config, using Emacs for more involved tasks.
+
+=vim-plug= will call =PlugInstall= automatically when vim first opens. It can be re-run manually with =:PlugInstall=.
+
+Files generated:
+- =~/.vim/autoload/plug.vim= :: curl'ed from junegunn's =vim-plug= github repo
+- =~/.vim/plug/* :: the github repo for each plugin configured by the =Plug= command
+- =~/.vim/vimrc :: symlink to out/vimrc
 
 #+BEGIN_SRC sh :tangle sh/install-vim.sh
 mkdir -p ~/.vim
 ln -svf $PWD/out/vimrc ~/.vim/vimrc
 #+END_SRC
 
-** .vimrc
-:PROPERTIES:
-:CUSTOM_ID: vimrc
-:END:
+* .vimrc
 First, setup vim-plug if it does not exist.
 
 #+BEGIN_SRC sh :tangle out/vimrc
@@ -73,7 +74,7 @@ set backspace=indent,eol,start
 set viminfo+=n~/.vim/viminfo
 #+END_SRC
 
-*** Palenight colorscheme
+** Palenight colorscheme
 Configure the [[https://github.com/drewtempelmeyer/palenight.vim][palenight]] colorscheme. It supports lightline and airline should I
 introduce either.
 
