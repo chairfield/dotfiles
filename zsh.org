@@ -101,4 +101,11 @@ antigen init $ZDOTDIR/antigenrc
 source $ZDOTDIR/agkozakrc
 #+END_SRC
 
+*** Source ~/.zshrc
+Until I've merged and migrated all my zsh code, simply source a =.zshrc= that won't be overwritten when I tangle =zsh.org=.
+
+#+BEGIN_SRC sh :tangle out/zsh/zshrc
+source ~/.zshrc
+#+END_SRC
+
 * Tasks
