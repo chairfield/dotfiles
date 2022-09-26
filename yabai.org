@@ -19,6 +19,12 @@ else
 fi
 #+END_SRC
 
+* Manual Steps
+** Disable automatic reordering of spaces
+Per the [[https://github.com/koekeishiya/yabai/wiki/Tips-and-tricks#fix-spaces-reordering-automatically][Tips and tricks]] page on yabai's wiki, uncheck the following:
+
+[[file:images/yabai-setting-do-not-reorder-spaces.png]]
+
 * Configs
 ** .yabairc
 :PROPERTIES:
