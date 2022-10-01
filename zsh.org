@@ -101,6 +101,15 @@ antigen init $ZDOTDIR/antigenrc
 source $ZDOTDIR/agkozakrc
 #+END_SRC
 
+*** Git
+I lean heavily on [[https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/git/git.plugin.zsh][ohmyzsh/git.plugin.zsh]], and sprinkle any additions below:
+
+#+BEGIN_SRC sh :tangle out/zsh/zshrc
+# Git
+# Plugin: https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/git/git.plugin.zsh
+alias gs="git status" # Overwrites ghostscript, which is likely why OMZ chose 'gst'
+#+END_SRC
+
 *** Source ~/.zshrc
 Until I've merged and migrated all my zsh code, simply source a =.zshrc= that won't be overwritten when I tangle =zsh.org=.
 
