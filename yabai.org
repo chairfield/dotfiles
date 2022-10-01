@@ -57,7 +57,7 @@ yabai -m config auto_balance                 off
 yabai -m config split_ratio                  0.50
 
 # https://github.com/koekeishiya/yabai/wiki/Configuration#mouse-support
-yabai -m config mouse_modifier               fn
+yabai -m config mouse_modifier               alt
 yabai -m config mouse_action1                move
 yabai -m config mouse_action2                resize
 yabai -m config focus_follows_mouse          off
@@ -80,6 +80,7 @@ yabai -m config insert_window_border_color   0xffd75f5f
 yabai -m rule --add app="^Anki$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
 #+END_SRC
+
 ** .spacebarrc
 :PROPERTIES:
 :CUSTOM_ID: spacebarrc
@@ -106,14 +107,19 @@ spacebar -m config clock_format      "%a %b %d, %l:%M %p"
 :PROPERTIES:
 :CUSTOM_ID: skhdrc
 :END:
-[[https://github.com/koekeishiya/skhd][skhd]] is a MacOS hotkey daemon that I am using for driving [[https://github.com/koekeishiya/yabai][yabai]].
+[[https://github.com/koekeishiya/skhd][skhd]] is a MacOS hotkey daemon that I am primarily using for driving [[https://github.com/koekeishiya/yabai][yabai]],
+but it's general-purpose.
 
+*** yabai hotkeys
 #+BEGIN_SRC sh :tangle out/skhdrc
 # focus window (=alt= is the Windows key on MacOS)
 alt - h : yabai -m window --focus west
 alt - j : yabai -m window --focus south
 alt - k : yabai -m window --focus north
 alt - l : yabai -m window --focus east
+
+# toggle whether to split vertically or horizontally
+alt - s : yabai -m window --toggle split
 
 # swap window
 shift + alt - h : yabai -m window --swap west
@@ -150,6 +156,13 @@ shift + cmd - 7 : yabai -m window --space  7; yabai -m space --focus 7
 shift + cmd - 8 : yabai -m window --space  8; yabai -m space --focus 8
 shift + cmd - 9 : yabai -m window --space  9; yabai -m space --focus 9
 shift + cmd - 0 : yabai -m window --space 10; yabai -m space --focus 10
+#+END_SRC
+
+*** Other hotkeys
+Note: it's possible to disable built-in hotkeys like =cmd h= as well.
+
+#+BEGIN_SRC sh :tangle out/skhdrc
+cmd - h : :
 #+END_SRC
 
 * Management
