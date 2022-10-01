@@ -1,0 +1,47 @@
+#+TITLE: Zsh Notes
+
+* Peter Stephenson's [[https://zsh.sourceforge.io/Guide/zshguide.html][A User's Guide to the Z-Shell]]
+** Chapter 1: a short introduction
+*** Terminology
+- shell :: a command interpreter for UNIX systems, so called because it wraps around the commands you use
+- command :: e.g., =rm=
+- argument(s) :: e.g., =-rf ~=
+- command line :: e.g., =rm -rf ~= (don't do this)
+- <RET> :: return/enter key
+- <TAB> :: tab key
+- <SPC> :: spacebar
+- zle :: the Z-Shell Line Editor, started for any interactive shell, enables editing command lines
+- globbing :: filename generation
+- builtins :: builtin commands provided by zsh
+- functions :: user-generated lists of commands
+- shell options :: choices about how the shell is to work
+*** Notes
+- the shell is always running
+  - if it's running a command in the foreground, it hangs around waiting for it to finish
+  - or you can run a command in the background by appending =&=
+- builtins and functions always run within the shell
+  - things which don't run in the shell can't affect the shell itself
+  - builtins and functions can alter parameters, functions, aliases, etc.
+- other shells
+  - =sh=, the Bourne shell, came first
+  - =bash=, the Bourne-Again Shell, enhanced =sh=
+    - written by the GNU project
+    - on some systems, the command =sh= is really =bash=
+  - =ksh=, the Korn shell, is most similar to =zsh=
+  - the POSIX shell refers to an attempt to standardize UNIX shells
+    - it's most like =ksh=
+  - =csh=, the C-Shell, is another common family of shells
+    - its syntax looks more like C, making it incompatible with =zsh=
+  - =tsch= is an enhanced =csh=, with many of the same features as =zsh=
+- zsh strengths
+  - sophisticated globbing system
+  - similar in power to =ksh= and =tsch=, perhaps better
+  - unrivalled completion system
+- zsh versions
+  - zsh 4.x introduced a new completion system, replacing the =compctl= command
+    - new users should start with the new completion system
+  - 5.9 is current stable as of 01 Oct 2022, having been released on 14 May 2022
+- shell option naming
+  - whenever zsh expects an option, it can be written in upper and/or lower case
+    and with any number of underscores
+    - e.g., =SH_WORD_SPLIT= is the same as =shwordsplit=
