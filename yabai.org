@@ -39,6 +39,7 @@ Per the [[https://github.com/koekeishiya/yabai/wiki/Tips-and-tricks#fix-spaces-r
 
 # Since MacOS 11 (Big Sur), yabai must load the scripting-addition here. This required allowing this command in /etc/sudoers first.
 # https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)#macos-big-sur---automatically-load-scripting-addition-on-startup
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
 
 # https://github.com/koekeishiya/yabai/wiki/Configuration#tiling-options
