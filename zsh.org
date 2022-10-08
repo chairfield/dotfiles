@@ -62,34 +62,73 @@ antigen apply
 #+END_SRC
 
 ** =agkozakrc=
+Agkozak prompt is a highly customizable and stable zsh prompt.
+
+If =pwd= depth exceeds the given threshold, trim it:
 #+BEGIN_SRC sh :tangle out/zsh/agkozakrc
-# Command on same line as prompt
-AGKOZAK_MULTILINE=0
-# Places git status on left side
-AGKOZAK_LEFT_PROMPT_ONLY=1
-# Show 3 directories, then trim
 AGKOZAK_PROMPT_DIRTRIM=3
-# Modifying the first 3 symbols: Diverged, Behind, Ahead
-# The other 6: New file(s), Deleted, Modified, Renamed, Untracked, Stashed changes
+#+END_SRC
+
+Customize the Git status symbols. In order:
+- '⇣⇡' :: diverged
+- '⇣' :: behind
+- '⇡' :: ahead
+- '+' :: new file(s)
+- 'x' :: deleted
+- '!' :: modified
+- '>' :: renamed
+- '?' :: untracked
+- '$' :: stashed change(s)
+#+BEGIN_SRC sh :tangle out/zsh/agkozakrc
 AGKOZAK_CUSTOM_SYMBOLS=( '⇣⇡' '⇣' '⇡' '+' 'x' '!' '>' '?' '$' )
-# Display the time in the right
-#AGKOZAK_CUSTOM_RPROMPT='%*'
-# Prepend a lambda in front of every line, as a visual indicator
-# Use prettier 256 colors, if available
+#+END_SRC
+
+Make sure the zsh/terminfo module is loaded. If the terminal has support for 256
+colors, use a softer color palette (Zenburn).
+there are 256 colors.
+#+BEGIN_SRC sh :tangle out/zsh/agkozakrc
+(( ${+modules[zsh/terminfo]} )) || zmodload zsh/terminfo
 if (( ${terminfo[colors]:-0} >= 256 )); then
   AGKOZAK_COLORS_USER_HOST=108
   AGKOZAK_COLORS_PATH=116
   AGKOZAK_COLORS_BRANCH_STATUS=228
   AGKOZAK_COLORS_EXIT_STATUS=174
   AGKOZAK_COLORS_CMD_EXEC_TIME=245
+  AGKOZAK_COLORS_VIRTUALENV=188
+  AGKOZAK_COLORS_BG_STRING=223
 fi
-AGKOZAK_CUSTOM_PROMPT=$'\n%F{yellow}λ %(!.%S%B.%B%F{${AGKOZAK_COLORS_USER_HOST}})%n%1v%(!.%b%s.%f%b) '
-AGKOZAK_CUSTOM_PROMPT+='%B%F{${AGKOZAK_COLORS_PATH}}%2v%f%b'
-AGKOZAK_CUSTOM_PROMPT+='%(3V.%F{${AGKOZAK_COLORS_BRANCH_STATUS}}%3v%f.)'
-AGKOZAK_CUSTOM_PROMPT+='%(9V. %F{${AGKOZAK_COLORS_CMD_EXEC_TIME}}%b%9v%b%f.)'
-AGKOZAK_CUSTOM_PROMPT+=$' %(?..%B%F{${AGKOZAK_COLORS_EXIT_STATUS}}(%?%)%f%b )'
-# TODO: Handle superuser case
-AGKOZAK_CUSTOM_PROMPT+='%(4V.%F{88}❮%f.%F{88}❯%f) '
+#+END_SRC
+
+#+BEGIN_SRC sh :tangle out/zsh/agkozakrc
+# Insert a blank line between command executions
+AGKOZAK_CUSTOM_PROMPT=$'\n'
+
+#
+# Second line, write user
+#
+AGKOZAK_CUSTOM_PROMPT+=$'%F{yellow}λ ' # A pretty lambda to indicate the next prompt
+# %n is the username; %1v is the @+hostname, which isn't displayed locally
+AGKOZAK_CUSTOM_PROMPT+=$'%(!.%S%B.%B%F{${AGKOZAK_COLORS_USER_HOST}})%n%1v%(!.%b%s.%f%b)'
+AGKOZAK_CUSTOM_PROMPT+='%(10V. %F{${AGKOZAK_COLORS_VIRTUALENV}}[%10v]%f.)'     # %10v --> virtual environment
+AGKOZAK_CUSTOM_PROMPT+=$'\n'
+
+#
+# Third line of the prompt
+#
+AGKOZAK_CUSTOM_PROMPT+='%B%F{${AGKOZAK_COLORS_PATH}}%2v%f%b'                   # %2v --> working directory
+AGKOZAK_CUSTOM_PROMPT+='%(3V.%F{${AGKOZAK_COLORS_BRANCH_STATUS}}%3v%f.)'       # %3v --> git branch + indicator
+AGKOZAK_CUSTOM_PROMPT+='%(9V. %F{${AGKOZAK_COLORS_CMD_EXEC_TIME}}%b%9v%b%f.)'  # %9v --> pretty-printed execution time
+AGKOZAK_CUSTOM_PROMPT+=$' %(?..%B%F{${AGKOZAK_COLORS_EXIT_STATUS}}(%?%)%f%b )' # exit status
+AGKOZAK_CUSTOM_PROMPT+='%(4V.%F{88}❮%f.%F{88}❯%f) '                            # %4v --> vicmd or empty
+#+END_SRC
+
+Display the time on the right edge of the prompt. RPROMPT doesn't support multiline.
+#+BEGIN_SRC sh :tangle out/zsh/agkozakrc
+#
+# Right-hand side of prompt
+#
+AGKOZAK_CUSTOM_RPROMPT='%(1j.%F{${AGKOZAK_COLORS_BG_STRING}}[%j]%f.) '         # Background job count
+AGKOZAK_CUSTOM_RPROMPT+='%*'                                                   # Current time (HH:MM:SS)
 #+END_SRC
 
 ** =~/.zshrc=
