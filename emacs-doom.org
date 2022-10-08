@@ -297,13 +297,13 @@ ln -svf $PWD/out/emacs-doom-packages ~/.config/doom/packages.el
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 #+END_SRC
-*** Disable exit prompt
+*** Disable exit prompt :ARCHIVE:
 Disables exit prompt if there are no unsaved changes.
 
 Source is a comment by hlissner [[https://github.com/doomemacs/doomemacs/issues/2688#issuecomment-596684817][here]].
 
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-config
-(setq confirm-kill-emacs nil)
+;(setq confirm-kill-emacs nil)
 #+END_SRC
 *** Fix Kinesis external keyboard on MacOS by disabling character composition on right option key
 *Intended behavior:* Win key on Kinesis freestyle serves as Emacs meta key
