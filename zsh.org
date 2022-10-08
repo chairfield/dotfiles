@@ -119,7 +119,7 @@ AGKOZAK_CUSTOM_PROMPT+='%B%F{${AGKOZAK_COLORS_PATH}}%2v%f%b'                   #
 AGKOZAK_CUSTOM_PROMPT+='%(3V.%F{${AGKOZAK_COLORS_BRANCH_STATUS}}%3v%f.)'       # %3v --> git branch + indicator
 AGKOZAK_CUSTOM_PROMPT+='%(9V. %F{${AGKOZAK_COLORS_CMD_EXEC_TIME}}%b%9v%b%f.)'  # %9v --> pretty-printed execution time
 AGKOZAK_CUSTOM_PROMPT+=$' %(?..%B%F{${AGKOZAK_COLORS_EXIT_STATUS}}(%?%)%f%b )' # exit status
-AGKOZAK_CUSTOM_PROMPT+='%(4V.%F{88}❮%f.%F{88}❯%f) '                            # %4v --> vicmd or empty
+AGKOZAK_CUSTOM_PROMPT+='%F{88}❯%f '                                            # mark the start of the zle with a red side caret
 #+END_SRC
 
 Display the time on the right edge of the prompt. RPROMPT doesn't support multiline.
