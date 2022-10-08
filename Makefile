@@ -74,6 +74,7 @@ vim: vim.org
 yabai: yabai.org
 	bin/tangle yabai.org
 
+# If antigen-related changes aren't having an effect, try: antigen reset
 zsh: zsh.org
 	bin/tangle zsh.org
 
