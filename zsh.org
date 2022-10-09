@@ -23,6 +23,9 @@ ln -svf $PWD/submodules/antigen ~/.zsh
 ln -svf $PWD/out/zsh/antigenrc ~/.zsh/antigenrc
 ln -svf $PWD/out/zsh/agkozakrc ~/.zsh/agkozakrc
 ln -svf $PWD/out/zsh/zshrc ~/.zsh/.zshrc
+
+mkdir -p ~/.config
+ln -svf $PWD/zsh-navigation-tools ~/.config/znt
 #+END_SRC
 
 * Config
@@ -56,7 +59,28 @@ antigen bundle zsh-users/zsh-completions # Quick
 antigen bundle zsh-users/zsh-autosuggestions # Quick
 antigen bundle zsh-users/zsh-syntax-highlighting # 0.04 seconds
 antigen bundle agkozak/agkozak-zsh-prompt # My theme; Quick
+#+END_SRC
 
+[[https://github.com/z-shell/zsh-navigation-tools][zsh-navigation-tools]] provides the following tools:
+- n-aliases :: browses aliases, relegates editing to vared
+- n-cd :: browses dirstack and bookmarked directories, allows to enter selected directory
+- n-functions :: browses functions, relegates editing to zed or vared
+- n-history :: browses history, allows to edit and run commands from it
+- n-kill :: browses processes list, allows to send signal to selected process
+- n-env :: browses environment, relegates editing to vared
+- n-options :: browses options, allows to toggle their state
+- n-panelize :: loads output of given command into the list for browsing
+
+Its config files live in =~/.config/znt=, overridable from =.zshrc=.
+
+#+BEGIN_SRC sh :tangle out/zsh/antigenrc
+# Tools start with `n-`
+antigen bundle z-shell/zsh-navigation-tools@main
+#+END_SRC
+
+Apply the Antigen commands above.
+
+#+BEGIN_SRC sh :tangle out/zsh/antigenrc
 # Tell Antigen that you're done
 antigen apply
 #+END_SRC
@@ -132,7 +156,7 @@ AGKOZAK_CUSTOM_RPROMPT+='%*'                                                   #
 #+END_SRC
 
 ** =~/.zshrc=
-*** Antigen
+*** Load Antigen
 #+BEGIN_SRC sh :tangle out/zsh/zshrc
 # Load antigen source, my antigen config, and my chosen theme
 source $ZDOTDIR/antigen/bin/antigen.zsh
