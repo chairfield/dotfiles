@@ -159,6 +159,12 @@ shift + cmd - 0 : yabai -m window --space 10; yabai -m space --focus 10
 #+END_SRC
 
 *** Other hotkeys
+#+BEGIN_SRC sh :tangle out/skhdrc
+# Open iTerm2. Might need to isable iTerm2's use of that first, in Preferences -> Keys ->
+# Key Bindings, add an entry for cmd + ret to perform the Ignore actiom.
+cmd - return : open -na /Applications/iTerm.app
+#+END_SRC
+
 Note: it's possible to disable built-in hotkeys like =cmd h= as well.
 
 #+BEGIN_SRC sh :tangle out/skhdrc
