@@ -79,6 +79,11 @@ yabai -m config insert_window_border_color   0xffd75f5f
 # application rules (source: https://github.com/koekeishiya/yabai/blob/master/doc/yabai.asciidoc#rule)
 yabai -m rule --add app="^Anki$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
+
+# I don't know why this doesn't work, but it breaks things badly
+# I should probably just make it so that cmd + shift - a destroys space 7 if it's empty and there are 11 spaces
+# though this might not be perfect since fullscreen apps can become an extra space, and I don't always have a window on space 7
+# yabai -m signal --add event=display_added action="yabai -m space --focus 7 && yabai -m space --destroy"
 #+END_SRC
 
 ** .spacebarrc
@@ -156,6 +161,18 @@ shift + cmd - 7 : yabai -m window --space  7; yabai -m space --focus 7
 shift + cmd - 8 : yabai -m window --space  8; yabai -m space --focus 8
 shift + cmd - 9 : yabai -m window --space  9; yabai -m space --focus 9
 shift + cmd - 0 : yabai -m window --space 10; yabai -m space --focus 10
+
+# complex, but a victory since Mission Control is notoriously unscriptable
+# command to run manually before unplugging display 2
+# steps and reasoning:
+# 1. focus space 7: so that when we move the new space to display 2, it'll be in space 8 (always moves to after the last focused space on that display)
+# 2. focus space 6: could be 1-5 too, just needs to be on first display so that the new space will be on display 1
+# 3. create new space: becomes space 7 on display 1, pushing spaces 7-10 to 8-11
+# 4. focus space 7: focus this new space
+# 5. move space 7 to display 2: makes it space 8, the 2nd space on display 2 (so now there are 5 spaces on display 2)
+# 6. swap with space 7: so that display 2 has the empty space first, then the original 4 spaces in 8-11
+# at this point, when I unplug display 2 it will destroy the empty space 7, as it always destroys the first space on the removed display
+cmd + ctrl - a : yabai -m space --focus 7; yabai -m space --focus 6; yabai -m space --create; yabai -m space --focus 7; yabai -m space --display 2; yabai -m space --swap 7
 #+END_SRC
 
 *** Other hotkeys
