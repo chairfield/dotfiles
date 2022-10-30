@@ -115,30 +115,32 @@ spacebar -m config clock_format      "%a %b %d, %l:%M %p"
 [[https://github.com/koekeishiya/skhd][skhd]] is a MacOS hotkey daemon that I am primarily using for driving [[https://github.com/koekeishiya/yabai][yabai]],
 but it's general-purpose.
 
-*** yabai hotkeys
+*** Focus Window: (⌥) - h/j/k/l
 #+BEGIN_SRC sh :tangle out/skhdrc
-# focus window (=alt= is the Windows key on MacOS)
 alt - h : yabai -m window --focus west
 alt - j : yabai -m window --focus south
 alt - k : yabai -m window --focus north
 alt - l : yabai -m window --focus east
+#+END_SRC
 
-# toggle whether to split vertically or horizontally
-alt - s : yabai -m window --toggle split
-
-# swap window
+*** Swap Window: (⌥ + ⇧) - h/j/k/l
+#+BEGIN_SRC sh :tangle out/skhdrc
 shift + alt - h : yabai -m window --swap west
 shift + alt - j : yabai -m window --swap south
 shift + alt - k : yabai -m window --swap north
 shift + alt - l : yabai -m window --swap east
+#+END_SRC
 
-# move window
+*** Warp Window: (cmd + ⇧) - h/j/k/l
+#+BEGIN_SRC sh :tangle out/skhdrc
 shift + cmd - h : yabai -m window --warp west
 shift + cmd - j : yabai -m window --warp south
 shift + cmd - k : yabai -m window --warp north
 shift + cmd - l : yabai -m window --warp east
+#+END_SRC
 
-# fast focus desktop
+*** Focus Space: (cmd) - #
+#+BEGIN_SRC sh :tangle out/skhdrc
 cmd - 1 : yabai -m space --focus 1
 cmd - 2 : yabai -m space --focus 2
 cmd - 3 : yabai -m space --focus 3
@@ -149,8 +151,10 @@ cmd - 7 : yabai -m space --focus 7
 cmd - 8 : yabai -m space --focus 8
 cmd - 9 : yabai -m space --focus 9
 cmd - 0 : yabai -m space --focus 10
+#+END_SRC
 
-# send window to desktop and follow focus
+*** Send Window to Space, Fast Follow: (cmd + ⇧) - #
+#+BEGIN_SRC sh :tangle out/skhdrc
 shift + cmd - 1 : yabai -m window --space  1; yabai -m space --focus 1
 shift + cmd - 2 : yabai -m window --space  2; yabai -m space --focus 2
 shift + cmd - 3 : yabai -m window --space  3; yabai -m space --focus 3
@@ -161,7 +165,15 @@ shift + cmd - 7 : yabai -m window --space  7; yabai -m space --focus 7
 shift + cmd - 8 : yabai -m window --space  8; yabai -m space --focus 8
 shift + cmd - 9 : yabai -m window --space  9; yabai -m space --focus 9
 shift + cmd - 0 : yabai -m window --space 10; yabai -m space --focus 10
+#+END_SRC
 
+*** Toggle BSP Split: (⌥) - s
+#+BEGIN_SRC sh :tangle out/skhdrc
+alt - s : yabai -m window --toggle split
+#+END_SRC
+
+*** Create Temp Space 7, Display 2: (cmd + ctrl) - a
+#+BEGIN_SRC sh :tangle out/skhdrc
 # complex, but a victory since Mission Control is notoriously unscriptable
 # command to run manually before unplugging display 2
 # steps and reasoning:
@@ -175,14 +187,16 @@ shift + cmd - 0 : yabai -m window --space 10; yabai -m space --focus 10
 cmd + ctrl - a : yabai -m space --focus 7; yabai -m space --focus 6; yabai -m space --create; yabai -m space --focus 7; yabai -m space --display 2; yabai -m space --swap 7
 #+END_SRC
 
-*** Other hotkeys
+*** Open iTerm Window: (cmd) - ↩
 #+BEGIN_SRC sh :tangle out/skhdrc
 # Open iTerm2. Might need to isable iTerm2's use of that first, in Preferences -> Keys ->
 # Key Bindings, add an entry for cmd + ret to perform the Ignore actiom.
 cmd - return : open -na /Applications/iTerm.app
 #+END_SRC
 
-Note: it's possible to disable built-in hotkeys like =cmd h= as well.
+*** Disable Built-in Hotkeys
+It's possible to disable built-in hotkeys like =cmd h=, which I often accidentally hide a window with.
+The skhd syntax is specific.
 
 #+BEGIN_SRC sh :tangle out/skhdrc
 cmd - h : :
