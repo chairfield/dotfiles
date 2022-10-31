@@ -187,11 +187,13 @@ alt - s : yabai -m window --toggle split
 cmd + ctrl - a : yabai -m space --focus 7; yabai -m space --focus 6; yabai -m space --create; yabai -m space --focus 7; yabai -m space --display 2; yabai -m space --swap 7
 #+END_SRC
 
-*** Open iTerm Window: (cmd) - ↩
+*** Open iTerm Window: (⌥) - ↩
+Note: =cmd - return= conflicts with apps that use =return= for a newline in a textbox.
+
 #+BEGIN_SRC sh :tangle out/skhdrc
 # Open iTerm2. Might need to isable iTerm2's use of that first, in Preferences -> Keys ->
 # Key Bindings, add an entry for cmd + ret to perform the Ignore actiom.
-cmd - return : open -na /Applications/iTerm.app
+alt - return : open -na /Applications/iTerm.app
 #+END_SRC
 
 *** Disable Built-in Hotkeys
