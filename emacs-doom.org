@@ -215,6 +215,12 @@ ln -svf $PWD/out/emacs-doom-packages ~/.config/doom/packages.el
        ;;twitter           ; twitter client https://twitter.com/vnought
 
        :config
+       ; Since I'm tangling more than just config.el, the literate module "won't cut it"
+       ; Brainstormed options:
+       ; - Zsh precmd to run make on dotfiles before the doom command
+       ; - Alias doom to do the same
+       ; - Build in a doom sync command from within doom itself
+       ; - Remove init.el from my literate emacs-doom.org
        ;;literate
        (default +bindings +smartparens))
 #+END_SRC
