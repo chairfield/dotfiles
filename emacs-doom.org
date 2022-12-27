@@ -80,7 +80,8 @@ ln -svf $PWD/out/emacs-doom-packages ~/.config/doom/packages.el
        (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
-       format            ; automated prettiness
+       ; The +format-on-save-enabled-mode symbol sets which major modes to format on save
+       (format +onsave)  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
        ;;multiple-cursors  ; editing in many places at once
@@ -171,7 +172,7 @@ ln -svf $PWD/out/emacs-doom-packages ~/.config/doom/packages.el
        ;;kotlin            ; a better, slicker Java(Script)
        ;;latex             ; writing papers in Emacs has never been so fun
        ;;lean              ; for folks with too much to prove
-       ;;ledger            ; be audit you can be
+       ledger            ; be audit you can be
        ;;lua               ; one-based indices? one-based indices
        markdown          ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
@@ -391,6 +392,37 @@ the hydra-first workflow as it beats the alternatives:
               (:prefix-map ("o" . "open")
                            :desc "Open dap-hydra" "d" #'dap-hydra)))
 #+END_SRC
+
+*** BUGFIX(Doom) :editor/(format +onsave) for =ledger-mode=
+Bug tree:
+- variable: =before-save-hook=
+  - function: =format-all-buffer--from-hook= (upstream format-all.el)
+    - advice: =+format--all-buffer-from-hook-a= (Doom's [[https://github.com/doomemacs/doomemacs/blob/d5ccac5d71c819035fa251f01d023b3f94b4fba4/modules/editor/format/config.el#L77][editor/format/config.el]])
+
+I reported my findings to Doom's issue tracker here: [[https://github.com/doomemacs/doomemacs/issues/6936#issuecomment-1366030502][#6936]]
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-config
+; I tried every iteration of (after!, to no avail. Calling it directly from config.el seems to work.
+(advice-remove 'format-all-buffer--from-hook '+format--all-buffer-from-hook-a)
+
+; I can't use the following until Doom V3 is ready, per hlissner here:
+; https://github.com/doomemacs/doomemacs/issues/6852#issuecomment-1260085613
+;; (use-package-hook! format
+;;   :post-config
+;;   (advice-remove 'format-all-buffer--from-hook '+format--all-buffer-from-hook-a)
+;;   t)
+#+END_SRC
+
+This bug taught me a lot about debugging emacs:
+- SPC o r :: open REPL (for elisp)
+- SPC c s :: code send to REPL
+- gr :: execute the region within the current buffer (visual block supported)
+  - This is extremely useful for debugging code in context, though still more manual than a debugger
+- before-save-hook :: (variable) list of function hooks called before saving a buffer
+- +format--all-buffer-from-hook-a :: Doom's hack advice function
+  - For future debugging sessions, I might be best off replacing Doom's config with a manual =use-package!=
+    - If that fixes the issue, I can try bisecting Doom's config, or just start by removing all its hacks
+
 ** packages.el
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-packages
 ;; -*- no-byte-compile: t; -*-
