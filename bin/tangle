@@ -15,6 +15,7 @@ for file in $@; do
 (progn
   (require 'org-install)
   (find-file (expand-file-name \"$file\" \"$DIR\"))
+  (setq org-src-preserve-indentation t)
   (org-babel-tangle)
   (kill-buffer))" 2>&1 | grep "Tangled"
 done
