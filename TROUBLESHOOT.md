@@ -5,6 +5,9 @@
 ## Doom's Troubleshooting Docs
 [getting_started.org#troubleshoot](https://github.com/doomemacs/doomemacs/blob/develop/docs/getting_started.org#troubleshoot)
 
+## Debug on error
+`M-x toggle-debug-on-error RET` ([source](https://stackoverflow.com/a/4181236))
+
 ## Partial Issue Checklist
 `hlissner` summarized in a comment [here](https://github.com/doomemacs/doomemacs/issues/4273#issuecomment-728637306):
 
