@@ -357,27 +357,9 @@ does:
   (setq mac-right-option-modifier 'meta
         ns-right-option-modifier  'meta)))
 #+END_SRC
-*** =beancount-mode=
-**** =S-TAB= like =org-mode=
-Configure =S-TAB= to cycle the buffer's visibility state, exactly as happens in =org-mode=.
-
-By default, =beancount-mode= wraps this functionality into the =TAB= key, but I'm wary. Many
-other actors place a claim on =TAB=, at least =outline-minor-mode=, =company-mode=, and general
-indentation functionality. Doom's =beancount= module, perhaps wisely, disallows the =S-TAB=-ey
-flavor of =beancount='s =TAB=.
-
-#+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-config
-(map! :after beancount
-      ; Since I'm not specifying any leader (e.g., :localleader), these will be available
-      ; whenever the major mode is beancount-mode
-      :map beancount-mode-map
-      ; Adding this twice solely because org-mode does something similar for its S-TAB keybind
-      "<backtab>" #'beancount-cycle-buffer
-      "S-TAB" #'beancount-cycle-buffer)
-#+END_SRC
-
-*** =company-mode=
-**** Disable auto-completion
+*** [[https://github.com/doomemacs/doomemacs/tree/master/modules/completion][:completion]]
+**** [[https://github.com/doomemacs/doomemacs/tree/master/modules/completion/company][company]]
+***** Disable auto-completion
 Disable auto-completion to avoid =company-mode= interfering with =yasnippet=
 completion. There may be a better way to accomplish this built into Doom and/or
 =company-mode= itself.
@@ -385,7 +367,8 @@ completion. There may be a better way to accomplish this built into Doom and/or
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-config
 (after! company (+company/toggle-auto-completion))
 #+END_SRC
-**** Trigger manual completion with =C-;=
+
+***** Trigger manual completion with =C-;=
 [[https://github.com/doomemacs/doomemacs/blob/master/modules/config/default/%2Bevil-bindings.el][+evil-bindings.el]] contains the following line when the =company= module is
 active, which doesn't seem to work:
 #+BEGIN_SRC emacs-lisp
@@ -405,13 +388,45 @@ Before committing to this solution, I verified the following:
         (map! (:when (featurep! :completion company)
                      "C-;" #'+company/complete)))
 #+END_SRC
-*** =go-mode=
+
+*** [[https://github.com/doomemacs/doomemacs/tree/master/modules/lang][:lang]]
+**** [[https://github.com/doomemacs/doomemacs/tree/master/modules/lang/beancount][beancount]]
+***** =S-TAB= like =org-mode=
+Configure =S-TAB= to cycle the buffer's visibility state, exactly as happens in =org-mode=.
+
+By default, =beancount-mode= wraps this functionality into the =TAB= key, but I'm wary. Many
+other actors place a claim on =TAB=, at least =outline-minor-mode=, =company-mode=, and general
+indentation functionality. Doom's =beancount= module, perhaps wisely, disallows the =S-TAB=-ey
+flavor of =beancount='s =TAB=.
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-config
+(map! :after beancount
+      ; Since I'm not specifying any leader (e.g., :localleader), these will be available
+      ; whenever the major mode is beancount-mode
+      :map beancount-mode-map
+      ; Adding this twice solely because org-mode does something similar for its S-TAB keybind
+      "<backtab>" #'beancount-cycle-buffer
+      "S-TAB" #'beancount-cycle-buffer)
+#+END_SRC
+
+***** TODO Consistent next/previous heading keybinds
+From https://github.com/beancount/beancount-mode:
+(define-key beancount-mode-map (kbd "C-c C-n") #'outline-next-visible-heading)
+(define-key beancount-mode-map (kbd "C-c C-p") #'outline-previous-visible-heading)
+
+- [ ] How does org-mode do this?
+- [ ] Do I add these keybinds for beancount-mode or for outline-minor-mode globally?
+
+***** TODO Enable =+lsp= for =beancount= module?
+
+**** [[https://github.com/doomemacs/doomemacs/tree/master/modules/lang/go][go]]
 #+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-config
 (after! go-mode
         (map! :map go-mode-map
               :localleader
               "f" #'gofmt))
 #+END_SRC
+
 *** =dap-hydra= (provided by emacs-lsp/dap-mode)
 Override Doom's default "Start debugger" function (+debugger/start) because =dap-hydra=
 is so easy to use. Once in the hydra, =dl= starts the debugger with its last configuration,
