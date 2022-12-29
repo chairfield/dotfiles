@@ -139,7 +139,18 @@ ln -svf $PWD/out/emacs-doom-packages ~/.config/doom/packages.el
 
        :lang
        ;;agda              ; types of types of types of types...
-       ;;beancount         ; mind the GAAP
+#+END_SRC
+
+Current stable version (2.3.5) installed with =pip install beancount=, which makes
+commands (e.g., =bean-check=) available on =PATH=.
+
+Doom's =beancount= module extends just one package: =beancount/beancount-mode=. It's
+pinned 14 months ago, but only misses out on [[https://github.com/beancount/beancount-mode/commit/41039a8d7b08d8ddfdd1bd41363644b7590733a5][one]] functional PR.
+
+Doom's module enables =outline-minor-mode= whenever =beancount-mode= loads.
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-init
+       beancount         ; mind the GAAP
        ;;(cc +lsp)         ; C > C++ == 1
        ;;clojure           ; java with a lisp
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
@@ -346,6 +357,25 @@ does:
   (setq mac-right-option-modifier 'meta
         ns-right-option-modifier  'meta)))
 #+END_SRC
+*** =beancount-mode=
+**** =S-TAB= like =org-mode=
+Configure =S-TAB= to cycle the buffer's visibility state, exactly as happens in =org-mode=.
+
+By default, =beancount-mode= wraps this functionality into the =TAB= key, but I'm wary. Many
+other actors place a claim on =TAB=, at least =outline-minor-mode=, =company-mode=, and general
+indentation functionality. Doom's =beancount= module, perhaps wisely, disallows the =S-TAB=-ey
+flavor of =beancount='s =TAB=.
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-config
+(map! :after beancount
+      ; Since I'm not specifying any leader (e.g., :localleader), these will be available
+      ; whenever the major mode is beancount-mode
+      :map beancount-mode-map
+      ; Adding this twice solely because org-mode does something similar for its S-TAB keybind
+      "<backtab>" #'beancount-cycle-buffer
+      "S-TAB" #'beancount-cycle-buffer)
+#+END_SRC
+
 *** =company-mode=
 **** Disable auto-completion
 Disable auto-completion to avoid =company-mode= interfering with =yasnippet=
