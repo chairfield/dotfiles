@@ -357,6 +357,17 @@ does:
   (setq mac-right-option-modifier 'meta
         ns-right-option-modifier  'meta)))
 #+END_SRC
+*** Toggle smaller title bar
+Toggle the title bar down to a single line, because the default 3-line title bar
+is ugly and a waste of space.
+
+Source: https://github.com/doomemacs/doomemacs/issues/7532
+
+#+BEGIN_SRC emacs-lisp :tangle out/emacs-doom-config
+(add-hook 'doom-after-init-hook
+          (lambda () (tool-bar-mode 1) (tool-bar-mode 0)))
+#+END_SRC
+
 *** [[https://github.com/doomemacs/doomemacs/tree/master/modules/completion][:completion]]
 **** [[https://github.com/doomemacs/doomemacs/tree/master/modules/completion/company][company]]
 ***** Disable auto-completion
