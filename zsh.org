@@ -164,6 +164,15 @@ antigen init $ZDOTDIR/antigenrc
 source $ZDOTDIR/agkozakrc
 #+END_SRC
 
+*** Env Vars
+#+BEGIN_SRC sh :tangle out/zsh/zshrc
+export HISTFILE=~/.zsh/history
+export HISTSIZE=999999999
+export SAVEHIST=$HISTSIZE
+
+export XDG_CONFIG_HOME=~/.config
+#+END_SRC
+
 *** Git
 I lean heavily on [[https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/git/git.plugin.zsh][ohmyzsh/git.plugin.zsh]], and sprinkle any additions below:
 
