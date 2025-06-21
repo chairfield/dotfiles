@@ -173,6 +173,19 @@ I lean heavily on [[https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/git/g
 alias gs="git status" # Overwrites ghostscript, which is likely why OMZ chose 'gst'
 #+END_SRC
 
+*** Vim Keybinds
+#+BEGIN_SRC sh :tangle out/zsh/zshrc
+# Vim direction keybinds
+bindkey "^h" backward-word
+bindkey "^j" down-line-or-search
+bindkey "^k" up-line-or-search
+bindkey "^l" forward-word
+
+# Kills word forward; backward-kill-word is already ^W
+# By default, kill-word is bound to commands starting with Escape ("^[")
+bindkey "^d" kill-word
+#+END_SRC
+
 *** Source ~/.zshrc
 Until I've merged and migrated all my zsh code, simply source a =.zshrc= that won't be overwritten when I tangle =zsh.org=.
 
