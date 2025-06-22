@@ -1,0 +1,20 @@
+#+TITLE: i3 config
+#+STARTUP: content
+
+* Installation Script
+#+BEGIN_SRC sh :tangle sh/install-i3.sh
+#!/bin/zsh
+
+if [ "$(uname 2> /dev/null)" != "Linux" ]; then
+  echo "Skipping Linux i3 setup"
+  exit 0
+fi
+
+mkdir -p ~/.config/i3
+ln -svf $PWD/out/i3-config ~/.config/i3/config
+#+END_SRC
+
+* i3 Config
+#+BEGIN_SRC sh :tangle out/i3-config
+
+#+END_SRC
