@@ -32,6 +32,7 @@ if [ "$(uname 2> /dev/null)" != "Linux" ]; then
   exit 0
 fi
 
+# Map caps lock to control, which only needs to be done once
 localectl set-x11-keymap us pc '' caps:ctrl_modifier,terminate:ctrl_alt_bksp
 #+END_SRC
 
@@ -69,7 +70,7 @@ handy in verifying some changes quickly.
 =xcape= allows a modifier key to be used as another key when it is pressed and released
 on its own.
 
-#+BEGIN_SRC sh :tangle out/90custom_xcape
+#+BEGIN_SRC sh :tangle out/run-xcape.sh
 #!/bin/sh
 
 if [ -x /usr/bin/xcape ]; then
@@ -88,11 +89,14 @@ I've set its input mapping to ="Caps_Lock" (keysym 0xffe5, key code 66)=. This
 also means that the above command only affects the Caps Lock key. To generate an
 Escape key event from a Control key, use =xcape -e 'Control_L=Escape'= or similar.
 
-**** TODO explain headline
-TODO explain
+**** Symlink =run-xcape.sh= to =~/.config/keyboard=
+The =xcape= daemon needs to be run on startup. I used to symlink this script under
+=/etc/X11/Xsession.d/=, but that approach was derived from Debian's session
+infrastructure.
 
 #+BEGIN_SRC sh :tangle sh/install-keyboard.sh
-sudo ln -svf $PWD/out/90custom_xcape /etc/X11/Xsession.d/
+mkdir -p ~/.config/keyboard
+ln -svf "$PWD/out/run-xcape.sh" ~/.config/keyboard/run-xcape.sh
 #+END_SRC
 
 **** TODO Tune xcape's timeout, if needed
