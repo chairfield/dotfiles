@@ -27,6 +27,11 @@ System user session starts (a restart is required by default for changes to take
 effect).
 
 #+BEGIN_SRC sh :tangle sh/install-keyboard.sh
+if [ "$(uname 2> /dev/null)" != "Linux" ]; then
+  echo "Skipping Linux keyboard setup"
+  exit 0
+fi
+
 localectl set-x11-keymap us pc '' caps:ctrl_modifier,terminate:ctrl_alt_bksp
 #+END_SRC
 
@@ -89,6 +94,7 @@ TODO explain
 #+BEGIN_SRC sh :tangle sh/install-keyboard.sh
 sudo ln -svf $PWD/out/90custom_xcape /etc/X11/Xsession.d/
 #+END_SRC
+
 **** TODO Tune xcape's timeout, if needed
 The default timeout is, I believe, 100ms. Pass a timeout in milliseconds with the =-t=
 parameter to set a different one.
@@ -108,7 +114,6 @@ parameter to set a different one.
   - Upside: again, it's separate from xsessionrc, which are general and get crowded
   - Upside: it's system-wide, which mirrors how I've configured =xkb=
   - Upside: it's separate
-**** TODO Only run localectl and xcape on *nix
 
 *** Discussion: xkb vs. xmodmap
 =xmodmap= predates =xkb=, but could be used instead. For example, the following

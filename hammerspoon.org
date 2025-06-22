@@ -5,16 +5,17 @@
 Generate a script to install [[https://www.hammerspoon.org][Hammerspoon]]-related dotfiles:
 
 #+BEGIN_SRC sh :tangle sh/install-hammerspoon.sh
-if [ "$(uname 2> /dev/null)" = "Darwin" ]; then
-  mkdir -p ~/.hammerspoon
-  ln -svf $PWD/Spoons ~/.hammerspoon
-  ln -svf $PWD/out/hammerspoon/init.lua ~/.hammerspoon
-  ln -svf $PWD/out/hammerspoon/helpers.lua ~/.hammerspoon
-  ln -svf $PWD/out/hammerspoon/keyboard.lua ~/.hammerspoon
-  ln -svf $PWD/out/hammerspoon/spotify.lua ~/.hammerspoon
-else
-  echo "Skipping Hammerspoon installation"
+if [ "$(uname 2> /dev/null)" != "Darwin" ]; then
+  echo "Skipping MacOS Hammerspoon installation"
+  exit 0
 fi
+
+mkdir -p ~/.hammerspoon
+ln -svf $PWD/Spoons ~/.hammerspoon
+ln -svf $PWD/out/hammerspoon/init.lua ~/.hammerspoon
+ln -svf $PWD/out/hammerspoon/helpers.lua ~/.hammerspoon
+ln -svf $PWD/out/hammerspoon/keyboard.lua ~/.hammerspoon
+ln -svf $PWD/out/hammerspoon/spotify.lua ~/.hammerspoon
 #+END_SRC
 
 * Config
