@@ -195,6 +195,12 @@ bindkey "^l" forward-word
 bindkey "^d" kill-word
 #+END_SRC
 
+*** Doom Emacs
+#+BEGIN_SRC sh :tangle out/zsh/zshrc
+export PATH=$HOME/.doom-emacs/bin:$PATH
+export DOOMDIR=~/.config/doom
+#+END_SRC
+
 *** Source ~/.zshrc
 Until I've merged and migrated all my zsh code, simply source a =.zshrc= that won't be overwritten when I tangle =zsh.org=.
 

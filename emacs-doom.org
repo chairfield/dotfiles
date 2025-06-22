@@ -596,18 +596,8 @@ from =yas-snippet-dirs=, leaving it set to =(+snippets-dir +file-templates-dir)=
 
 ** Installation Script: Install and Sync
 #+BEGIN_SRC sh :tangle sh/install-emacs-doom.sh
-doom --doomdir ~/.config/doom install
-doom --doomdir ~/.config/doom sync
-doom --doomdir ~/.config/doom doctor
+doom install
+doom sync
+doom doctor
 #+END_SRC
 
-* Task List
-** TODO Set DOOMDIR env var via this dotfiles repo
-=.zshrc= is still managed by https://github.com/chairfield/dotphiles
-
-Once =.zshrc= is generated from this repo, I can tangle the =export
-DOOMDIR=~/.config/doom= line from here directly to =.zshrc=, followed by
-removing the explicit =--doomdir ~/.config/doom= argument on each =doom=
-invocation above.
-
-** TODO Migrate narrow/widen keybinds from spacemacs
