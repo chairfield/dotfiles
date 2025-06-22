@@ -62,6 +62,9 @@ emacs-vanilla-dotfiles: emacs-vanilla.org
 git: git.org
 	bin/tangle git.org
 
+i3: i3.org
+	bin/tangle i3.org
+
 keyboard: keyboard.org
 	bin/tangle keyboard.org
 
