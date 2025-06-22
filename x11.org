@@ -15,10 +15,30 @@ ln -svf "$PWD/out/x11/xinitrc" "$HOME/.xinitrc"
 
 * Config
 ** =xinitrc=
+*** Load any =xinitrc.d= scripts
+My Arch install includes =50-systemd-user.sh= there, which starts a =systemd --user=
+session when launching X if one isn't already running.
+
+#+BEGIN_SRC sh :tangle out/x11/xinitrc
+#!/bin/zsh
+
+if [ -d /etc/X11/xinit/xinitrc.d ]; then
+  for f in /etc/X11/xinit/xinitrc.d/?*.sh; do
+    [ -x "$f" ] && . "$f"
+  done
+  unset f
+fi
+#+END_SRC
+
 *** Start =xcape= (see [[./keyboard.org][keyboard.org]])
 For simplicity and portability, run =xcape= from =~/.xinitrc=.
 
 #+BEGIN_SRC sh :tangle out/x11/xinitrc
 # X keymap is set with localectl, but the xcape daemon maps caps lock presses to escape
 [ -x "$HOME/.config/keyboard/run-xcape.sh" ] && "$HOME/.config/keyboard/run-xcape.sh" &
+#+END_SRC
+
+*** Start =i3= (see [[./i3.org][i3.org]])
+#+BEGIN_SRC sh :tangle out/x11/xinitrc
+exec i3
 #+END_SRC
