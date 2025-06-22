@@ -1,0 +1,42 @@
+#+TITLE: Alacritty config
+#+STARTUP: content
+
+* Installation Script
+#+BEGIN_SRC sh :tangle sh/install-alacritty.sh
+#!/bin/zsh
+
+if ! command -v alacritty >/dev/null; then
+  echo "Error: Alacritty is not installed. Aborting alacritty setup."
+  exit 1
+fi
+
+mkdir -p ~/.config/alacritty
+ln -svf $PWD/out/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
+
+if [[ "$(uname)" = "Darwin" ]]; then
+  ln -sf "$PWD/out/alacritty/font-macos.toml" ~/.config/alacritty/font.toml
+else
+  ln -sf "$PWD/out/alacritty/font-linux.toml" ~/.config/alacritty/font.toml
+fi
+#+END_SRC
+
+* Config
+** MacOS-specific
+#+BEGIN_SRC toml :tangle out/alacritty/font-macos.toml
+[font]
+size = 12.0
+normal = { family = "DejaVuSansM Nerd Font", style = "Regular" }
+#+END_SRC
+
+** Linux-specific
+#+BEGIN_SRC toml :tangle out/alacritty/font-linux.toml
+[font]
+size = 8.0
+normal = { family = "DejaVu Sans Mono", style = "Regular" }
+#+END_SRC
+
+** =alacritty.toml=
+#+BEGIN_SRC toml :tangle out/alacritty/alacritty.toml
+[general]
+import = [ "~/.config/alacritty/font.toml" ]
+#+END_SRC

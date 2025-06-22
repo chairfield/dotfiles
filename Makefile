@@ -14,7 +14,7 @@ emacs-targets = \
 	emacs-spacemacs-main-dotfiles \
 	emacs-vanilla-dotfiles
 
-all: $(emacs-targets) git i3 keyboard hammerspoon vim x11 yabai zsh
+all: $(emacs-targets) alacritty git i3 keyboard hammerspoon vim x11 yabai zsh
 
 .PHONY: chemacs
 chemacs:
@@ -58,6 +58,9 @@ emacs-spacemacs-main-dotfiles: emacs-spacemacs-main.org
 
 emacs-vanilla-dotfiles: emacs-vanilla.org
 	bin/tangle emacs-vanilla.org
+
+alacritty: alacritty.org
+	bin/tangle alacritty.org
 
 git: git.org
 	bin/tangle git.org

@@ -10,6 +10,11 @@ if [ "$(uname 2> /dev/null)" != "Linux" ]; then
   exit 0
 fi
 
+if ! command -v alacritty >/dev/null; then
+  echo "Error: Alacritty is not installed. Aborting i3 setup."
+  exit 1
+fi
+
 mkdir -p ~/.config/i3
 ln -svf $PWD/out/i3-config ~/.config/i3/config
 #+END_SRC
@@ -60,7 +65,7 @@ floating_modifier $mod
 tiling_drag modifier titlebar
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
