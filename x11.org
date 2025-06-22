@@ -1,0 +1,24 @@
+#+TITLE: X11 config
+#+STARTUP: content
+
+* Installation Script
+#+BEGIN_SRC sh :tangle sh/install-x11.sh
+#!/bin/zsh
+
+if [ "$(uname 2> /dev/null)" != "Linux" ]; then
+  echo "Skipping Linux X11 setup"
+  exit 0
+fi
+
+ln -svf "$PWD/out/x11/xinitrc" "$HOME/.xinitrc"
+#+END_SRC
+
+* Config
+** =xinitrc=
+*** Start =xcape= (see [[./keyboard.org][keyboard.org]])
+For simplicity and portability, run =xcape= from =~/.xinitrc=.
+
+#+BEGIN_SRC sh :tangle out/x11/xinitrc
+# X keymap is set with localectl, but the xcape daemon maps caps lock presses to escape
+[ -x "$HOME/.config/keyboard/run-xcape.sh" ] && "$HOME/.config/keyboard/run-xcape.sh" &
+#+END_SRC

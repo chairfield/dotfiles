@@ -71,6 +71,9 @@ hammerspoon: hammerspoon.org keyboard
 vim: vim.org
 	bin/tangle vim.org
 
+x11: x11.org
+	bin/tangle x11.org
+
 yabai: yabai.org
 	bin/tangle yabai.org
 

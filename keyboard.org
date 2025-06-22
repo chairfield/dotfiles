@@ -99,22 +99,6 @@ mkdir -p ~/.config/keyboard
 ln -svf "$PWD/out/run-xcape.sh" ~/.config/keyboard/run-xcape.sh
 #+END_SRC
 
-**** TODO Decide how to run xcape early in X startup
-- Probably link xcape output script into ~/.x11
-- xinit
-  - looks for either .xinitrc or .xserverrc
-  - last long-lived program (e.g., i3) should be only foreground, as X exits after it closes
-  - this ties xinit to a specific desktop environment, which I don't want yet
-- xsession
-  - .xsessionrc works, and it's called early on
-  - "Note that in the Debian system, what many people traditionally put in the .xinitrc file should go in .xsession  instead; this permits the same X environment to be presented whether startx, xdm, or xinit is used to start the X session."
-- Xsession.d
-  - I can also link it as part of my Xsession startup procedure
-  - Downside: would need to provide password on initial installation
-  - Upside: again, it's separate from xsessionrc, which are general and get crowded
-  - Upside: it's system-wide, which mirrors how I've configured =xkb=
-  - Upside: it's separate
-
 *** Discussion: xkb vs. xmodmap
 =xmodmap= predates =xkb=, but could be used instead. For example, the following
 script, if passed to =xmodmap=, would modify the Caps Lock key to act as Escape:
