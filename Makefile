@@ -14,7 +14,7 @@ emacs-targets = \
 	emacs-spacemacs-main-dotfiles \
 	emacs-vanilla-dotfiles
 
-all: $(emacs-targets) git keyboard hammerspoon vim yabai zsh
+all: $(emacs-targets) git i3 keyboard hammerspoon vim x11 yabai zsh
 
 .PHONY: chemacs
 chemacs:
