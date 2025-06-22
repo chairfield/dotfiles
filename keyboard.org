@@ -74,7 +74,7 @@ on its own.
 #!/bin/sh
 
 if [ -x /usr/bin/xcape ]; then
-  xcape -e 'Caps_Lock=Escape'
+  xcape -e 'Caps_Lock=Escape' -t 150
 else
   message "/usr/bin/xcape not found"
 fi
@@ -98,10 +98,6 @@ infrastructure.
 mkdir -p ~/.config/keyboard
 ln -svf "$PWD/out/run-xcape.sh" ~/.config/keyboard/run-xcape.sh
 #+END_SRC
-
-**** TODO Tune xcape's timeout, if needed
-The default timeout is, I believe, 100ms. Pass a timeout in milliseconds with the =-t=
-parameter to set a different one.
 
 **** TODO Decide how to run xcape early in X startup
 - Probably link xcape output script into ~/.x11
